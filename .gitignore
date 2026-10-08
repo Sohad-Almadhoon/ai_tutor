@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+build
+.env*
+!.env.example
+next-env.d.ts
+*.tsbuildinfo
+.vercel
+
+# clerk configuration (can include secrets)
+/.clerk/
