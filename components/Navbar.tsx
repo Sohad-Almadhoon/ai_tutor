@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   SignedIn,
   SignedOut,
@@ -7,7 +10,15 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 
+const HIDDEN_ROUTES = ["/sign-in", "/sign-up"];
+
 export default function Navbar() {
+  const pathname = usePathname();
+
+  if (HIDDEN_ROUTES.some((route) => pathname.startsWith(route))) {
+    return null;
+  }
+
   return (
     <header className="flex h-16 items-center justify-between gap-4 border-b px-6">
       <Link href="/" className="text-lg font-bold">
