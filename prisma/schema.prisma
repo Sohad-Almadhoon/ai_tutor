@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Subject {
+  Maths
+  Language
+  Science
+  History
+  Coding
+  Economics
+}
+
+model User {
+  id        String   @id // Clerk user ID
+  name      String?
+  email     String?  @unique
+  createdAt DateTime @default(now())
+
+  companions Companion[]
+  bookmarks  Bookmark[]
+}
+
+model Companion {
+  id            Int      @id @default(autoincrement())
+  name          String
+  topic         String
+  subject       Subject
+  duration      Int
+  companionIcon String
+  voiceId       String
+  language      String
+  speakingStyle String
+  createdAt     DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  bookmarks Bookmark[]
+}
+
+model Bookmark {
+  id          Int      @id @default(autoincrement())
+  userId      String
+  companionId Int
+  createdAt   DateTime @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companion Companion @relation(fields: [companionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, companionId])
+}

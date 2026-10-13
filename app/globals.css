@@ -3,7 +3,11 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
-
+@theme inline {
+  --color-primary: #fe5933;
+  --color-cta: #2c2c2c;
+  --color-cta-gold: #fccc41;
+}
 @theme inline {
     --font-heading: var(--font-sans);
     --font-sans: var(--font-sans);
