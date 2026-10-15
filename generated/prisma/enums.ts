@@ -19,3 +19,12 @@ export const Subject = {
 } as const
 
 export type Subject = (typeof Subject)[keyof typeof Subject]
+
+
+export const LessonSessionStatus = {
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  ABANDONED: 'ABANDONED'
+} as const
+
+export type LessonSessionStatus = (typeof LessonSessionStatus)[keyof typeof LessonSessionStatus]

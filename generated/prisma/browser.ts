@@ -28,7 +28,17 @@ export type User = Prisma.UserModel
  */
 export type Companion = Prisma.CompanionModel
 /**
+ * Model Lesson
+ * 
+ */
+export type Lesson = Prisma.LessonModel
+/**
  * Model Bookmark
  * 
  */
 export type Bookmark = Prisma.BookmarkModel
+/**
+ * Model LessonSession
+ * 
+ */
+export type LessonSession = Prisma.LessonSessionModel

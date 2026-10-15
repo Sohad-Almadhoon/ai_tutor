@@ -399,7 +399,9 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Companion: 'Companion',
-  Bookmark: 'Bookmark'
+  Lesson: 'Lesson',
+  Bookmark: 'Bookmark',
+  LessonSession: 'LessonSession'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -415,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "companion" | "bookmark"
+    modelProps: "user" | "companion" | "lesson" | "bookmark" | "lessonSession"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -567,6 +569,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Lesson: {
+      payload: Prisma.$LessonPayload<ExtArgs>
+      fields: Prisma.LessonFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LessonFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LessonFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonPayload>
+        }
+        findFirst: {
+          args: Prisma.LessonFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LessonFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonPayload>
+        }
+        findMany: {
+          args: Prisma.LessonFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonPayload>[]
+        }
+        create: {
+          args: Prisma.LessonCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonPayload>
+        }
+        createMany: {
+          args: Prisma.LessonCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LessonCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonPayload>[]
+        }
+        delete: {
+          args: Prisma.LessonDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonPayload>
+        }
+        update: {
+          args: Prisma.LessonUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonPayload>
+        }
+        deleteMany: {
+          args: Prisma.LessonDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LessonUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LessonUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonPayload>[]
+        }
+        upsert: {
+          args: Prisma.LessonUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonPayload>
+        }
+        aggregate: {
+          args: Prisma.LessonAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLesson>
+        }
+        groupBy: {
+          args: Prisma.LessonGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LessonGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LessonCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LessonCountAggregateOutputType> | number
+        }
+      }
+    }
     Bookmark: {
       payload: Prisma.$BookmarkPayload<ExtArgs>
       fields: Prisma.BookmarkFieldRefs
@@ -641,6 +717,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    LessonSession: {
+      payload: Prisma.$LessonSessionPayload<ExtArgs>
+      fields: Prisma.LessonSessionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LessonSessionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonSessionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LessonSessionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonSessionPayload>
+        }
+        findFirst: {
+          args: Prisma.LessonSessionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonSessionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LessonSessionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonSessionPayload>
+        }
+        findMany: {
+          args: Prisma.LessonSessionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonSessionPayload>[]
+        }
+        create: {
+          args: Prisma.LessonSessionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonSessionPayload>
+        }
+        createMany: {
+          args: Prisma.LessonSessionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LessonSessionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonSessionPayload>[]
+        }
+        delete: {
+          args: Prisma.LessonSessionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonSessionPayload>
+        }
+        update: {
+          args: Prisma.LessonSessionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonSessionPayload>
+        }
+        deleteMany: {
+          args: Prisma.LessonSessionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LessonSessionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LessonSessionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonSessionPayload>[]
+        }
+        upsert: {
+          args: Prisma.LessonSessionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonSessionPayload>
+        }
+        aggregate: {
+          args: Prisma.LessonSessionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLessonSession>
+        }
+        groupBy: {
+          args: Prisma.LessonSessionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LessonSessionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LessonSessionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LessonSessionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -693,13 +843,13 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const CompanionScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  topic: 'topic',
-  subject: 'subject',
-  duration: 'duration',
+  description: 'description',
   companionIcon: 'companionIcon',
+  voiceProvider: 'voiceProvider',
   voiceId: 'voiceId',
   language: 'language',
   speakingStyle: 'speakingStyle',
+  isPublic: 'isPublic',
   createdAt: 'createdAt',
   userId: 'userId'
 } as const
@@ -707,14 +857,41 @@ export const CompanionScalarFieldEnum = {
 export type CompanionScalarFieldEnum = (typeof CompanionScalarFieldEnum)[keyof typeof CompanionScalarFieldEnum]
 
 
+export const LessonScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  topic: 'topic',
+  subject: 'subject',
+  targetDurationMinutes: 'targetDurationMinutes',
+  createdAt: 'createdAt',
+  companionId: 'companionId'
+} as const
+
+export type LessonScalarFieldEnum = (typeof LessonScalarFieldEnum)[keyof typeof LessonScalarFieldEnum]
+
+
 export const BookmarkScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  companionId: 'companionId',
+  lessonId: 'lessonId',
   createdAt: 'createdAt'
 } as const
 
 export type BookmarkScalarFieldEnum = (typeof BookmarkScalarFieldEnum)[keyof typeof BookmarkScalarFieldEnum]
+
+
+export const LessonSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  lessonId: 'lessonId',
+  companionId: 'companionId',
+  status: 'status',
+  startedAt: 'startedAt',
+  endedAt: 'endedAt',
+  durationSeconds: 'durationSeconds'
+} as const
+
+export type LessonSessionScalarFieldEnum = (typeof LessonSessionScalarFieldEnum)[keyof typeof LessonSessionScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -790,6 +967,13 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'Subject'
  */
 export type EnumSubjectFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Subject'>
@@ -800,6 +984,20 @@ export type EnumSubjectFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMo
  * Reference to a field of type 'Subject[]'
  */
 export type ListEnumSubjectFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Subject[]'>
+    
+
+
+/**
+ * Reference to a field of type 'LessonSessionStatus'
+ */
+export type EnumLessonSessionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LessonSessionStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'LessonSessionStatus[]'
+ */
+export type ListEnumLessonSessionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LessonSessionStatus[]'>
     
 
 
@@ -969,7 +1167,9 @@ export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaC
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   companion?: Prisma.CompanionOmit
+  lesson?: Prisma.LessonOmit
   bookmark?: Prisma.BookmarkOmit
+  lessonSession?: Prisma.LessonSessionOmit
 }
 
 /* Types for Logging */

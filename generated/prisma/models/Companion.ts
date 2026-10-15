@@ -28,24 +28,22 @@ export type AggregateCompanion = {
 
 export type CompanionAvgAggregateOutputType = {
   id: number | null
-  duration: number | null
 }
 
 export type CompanionSumAggregateOutputType = {
   id: number | null
-  duration: number | null
 }
 
 export type CompanionMinAggregateOutputType = {
   id: number | null
   name: string | null
-  topic: string | null
-  subject: $Enums.Subject | null
-  duration: number | null
+  description: string | null
   companionIcon: string | null
+  voiceProvider: string | null
   voiceId: string | null
   language: string | null
   speakingStyle: string | null
+  isPublic: boolean | null
   createdAt: Date | null
   userId: string | null
 }
@@ -53,13 +51,13 @@ export type CompanionMinAggregateOutputType = {
 export type CompanionMaxAggregateOutputType = {
   id: number | null
   name: string | null
-  topic: string | null
-  subject: $Enums.Subject | null
-  duration: number | null
+  description: string | null
   companionIcon: string | null
+  voiceProvider: string | null
   voiceId: string | null
   language: string | null
   speakingStyle: string | null
+  isPublic: boolean | null
   createdAt: Date | null
   userId: string | null
 }
@@ -67,13 +65,13 @@ export type CompanionMaxAggregateOutputType = {
 export type CompanionCountAggregateOutputType = {
   id: number
   name: number
-  topic: number
-  subject: number
-  duration: number
+  description: number
   companionIcon: number
+  voiceProvider: number
   voiceId: number
   language: number
   speakingStyle: number
+  isPublic: number
   createdAt: number
   userId: number
   _all: number
@@ -82,24 +80,22 @@ export type CompanionCountAggregateOutputType = {
 
 export type CompanionAvgAggregateInputType = {
   id?: true
-  duration?: true
 }
 
 export type CompanionSumAggregateInputType = {
   id?: true
-  duration?: true
 }
 
 export type CompanionMinAggregateInputType = {
   id?: true
   name?: true
-  topic?: true
-  subject?: true
-  duration?: true
+  description?: true
   companionIcon?: true
+  voiceProvider?: true
   voiceId?: true
   language?: true
   speakingStyle?: true
+  isPublic?: true
   createdAt?: true
   userId?: true
 }
@@ -107,13 +103,13 @@ export type CompanionMinAggregateInputType = {
 export type CompanionMaxAggregateInputType = {
   id?: true
   name?: true
-  topic?: true
-  subject?: true
-  duration?: true
+  description?: true
   companionIcon?: true
+  voiceProvider?: true
   voiceId?: true
   language?: true
   speakingStyle?: true
+  isPublic?: true
   createdAt?: true
   userId?: true
 }
@@ -121,13 +117,13 @@ export type CompanionMaxAggregateInputType = {
 export type CompanionCountAggregateInputType = {
   id?: true
   name?: true
-  topic?: true
-  subject?: true
-  duration?: true
+  description?: true
   companionIcon?: true
+  voiceProvider?: true
   voiceId?: true
   language?: true
   speakingStyle?: true
+  isPublic?: true
   createdAt?: true
   userId?: true
   _all?: true
@@ -222,13 +218,13 @@ export type CompanionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type CompanionGroupByOutputType = {
   id: number
   name: string
-  topic: string
-  subject: $Enums.Subject
-  duration: number
+  description: string
   companionIcon: string
+  voiceProvider: string
   voiceId: string
   language: string
   speakingStyle: string
+  isPublic: boolean
   createdAt: Date
   userId: string
   _count: CompanionCountAggregateOutputType | null
@@ -259,33 +255,35 @@ export type CompanionWhereInput = {
   NOT?: Prisma.CompanionWhereInput | Prisma.CompanionWhereInput[]
   id?: Prisma.IntFilter<"Companion"> | number
   name?: Prisma.StringFilter<"Companion"> | string
-  topic?: Prisma.StringFilter<"Companion"> | string
-  subject?: Prisma.EnumSubjectFilter<"Companion"> | $Enums.Subject
-  duration?: Prisma.IntFilter<"Companion"> | number
+  description?: Prisma.StringFilter<"Companion"> | string
   companionIcon?: Prisma.StringFilter<"Companion"> | string
+  voiceProvider?: Prisma.StringFilter<"Companion"> | string
   voiceId?: Prisma.StringFilter<"Companion"> | string
   language?: Prisma.StringFilter<"Companion"> | string
   speakingStyle?: Prisma.StringFilter<"Companion"> | string
+  isPublic?: Prisma.BoolFilter<"Companion"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Companion"> | Date | string
   userId?: Prisma.StringFilter<"Companion"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  bookmarks?: Prisma.BookmarkListRelationFilter
+  lessons?: Prisma.LessonListRelationFilter
+  lessonSessions?: Prisma.LessonSessionListRelationFilter
 }
 
 export type CompanionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  topic?: Prisma.SortOrder
-  subject?: Prisma.SortOrder
-  duration?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   companionIcon?: Prisma.SortOrder
+  voiceProvider?: Prisma.SortOrder
   voiceId?: Prisma.SortOrder
   language?: Prisma.SortOrder
   speakingStyle?: Prisma.SortOrder
+  isPublic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
-  bookmarks?: Prisma.BookmarkOrderByRelationAggregateInput
+  lessons?: Prisma.LessonOrderByRelationAggregateInput
+  lessonSessions?: Prisma.LessonSessionOrderByRelationAggregateInput
 }
 
 export type CompanionWhereUniqueInput = Prisma.AtLeast<{
@@ -294,29 +292,30 @@ export type CompanionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.CompanionWhereInput[]
   NOT?: Prisma.CompanionWhereInput | Prisma.CompanionWhereInput[]
   name?: Prisma.StringFilter<"Companion"> | string
-  topic?: Prisma.StringFilter<"Companion"> | string
-  subject?: Prisma.EnumSubjectFilter<"Companion"> | $Enums.Subject
-  duration?: Prisma.IntFilter<"Companion"> | number
+  description?: Prisma.StringFilter<"Companion"> | string
   companionIcon?: Prisma.StringFilter<"Companion"> | string
+  voiceProvider?: Prisma.StringFilter<"Companion"> | string
   voiceId?: Prisma.StringFilter<"Companion"> | string
   language?: Prisma.StringFilter<"Companion"> | string
   speakingStyle?: Prisma.StringFilter<"Companion"> | string
+  isPublic?: Prisma.BoolFilter<"Companion"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Companion"> | Date | string
   userId?: Prisma.StringFilter<"Companion"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  bookmarks?: Prisma.BookmarkListRelationFilter
+  lessons?: Prisma.LessonListRelationFilter
+  lessonSessions?: Prisma.LessonSessionListRelationFilter
 }, "id">
 
 export type CompanionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  topic?: Prisma.SortOrder
-  subject?: Prisma.SortOrder
-  duration?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   companionIcon?: Prisma.SortOrder
+  voiceProvider?: Prisma.SortOrder
   voiceId?: Prisma.SortOrder
   language?: Prisma.SortOrder
   speakingStyle?: Prisma.SortOrder
+  isPublic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   _count?: Prisma.CompanionCountOrderByAggregateInput
@@ -332,111 +331,115 @@ export type CompanionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CompanionScalarWhereWithAggregatesInput | Prisma.CompanionScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Companion"> | number
   name?: Prisma.StringWithAggregatesFilter<"Companion"> | string
-  topic?: Prisma.StringWithAggregatesFilter<"Companion"> | string
-  subject?: Prisma.EnumSubjectWithAggregatesFilter<"Companion"> | $Enums.Subject
-  duration?: Prisma.IntWithAggregatesFilter<"Companion"> | number
+  description?: Prisma.StringWithAggregatesFilter<"Companion"> | string
   companionIcon?: Prisma.StringWithAggregatesFilter<"Companion"> | string
+  voiceProvider?: Prisma.StringWithAggregatesFilter<"Companion"> | string
   voiceId?: Prisma.StringWithAggregatesFilter<"Companion"> | string
   language?: Prisma.StringWithAggregatesFilter<"Companion"> | string
   speakingStyle?: Prisma.StringWithAggregatesFilter<"Companion"> | string
+  isPublic?: Prisma.BoolWithAggregatesFilter<"Companion"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Companion"> | Date | string
   userId?: Prisma.StringWithAggregatesFilter<"Companion"> | string
 }
 
 export type CompanionCreateInput = {
   name: string
-  topic: string
-  subject: $Enums.Subject
-  duration: number
+  description?: string
   companionIcon: string
+  voiceProvider?: string
   voiceId: string
   language: string
   speakingStyle: string
+  isPublic?: boolean
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCompanionsInput
-  bookmarks?: Prisma.BookmarkCreateNestedManyWithoutCompanionInput
+  lessons?: Prisma.LessonCreateNestedManyWithoutCompanionInput
+  lessonSessions?: Prisma.LessonSessionCreateNestedManyWithoutCompanionInput
 }
 
 export type CompanionUncheckedCreateInput = {
   id?: number
   name: string
-  topic: string
-  subject: $Enums.Subject
-  duration: number
+  description?: string
   companionIcon: string
+  voiceProvider?: string
   voiceId: string
   language: string
   speakingStyle: string
+  isPublic?: boolean
   createdAt?: Date | string
   userId: string
-  bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutCompanionInput
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCompanionInput
+  lessonSessions?: Prisma.LessonSessionUncheckedCreateNestedManyWithoutCompanionInput
 }
 
 export type CompanionUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
-  subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
-  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   companionIcon?: Prisma.StringFieldUpdateOperationsInput | string
+  voiceProvider?: Prisma.StringFieldUpdateOperationsInput | string
   voiceId?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   speakingStyle?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCompanionsNestedInput
-  bookmarks?: Prisma.BookmarkUpdateManyWithoutCompanionNestedInput
+  lessons?: Prisma.LessonUpdateManyWithoutCompanionNestedInput
+  lessonSessions?: Prisma.LessonSessionUpdateManyWithoutCompanionNestedInput
 }
 
 export type CompanionUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
-  subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
-  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   companionIcon?: Prisma.StringFieldUpdateOperationsInput | string
+  voiceProvider?: Prisma.StringFieldUpdateOperationsInput | string
   voiceId?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   speakingStyle?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutCompanionNestedInput
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCompanionNestedInput
+  lessonSessions?: Prisma.LessonSessionUncheckedUpdateManyWithoutCompanionNestedInput
 }
 
 export type CompanionCreateManyInput = {
   id?: number
   name: string
-  topic: string
-  subject: $Enums.Subject
-  duration: number
+  description?: string
   companionIcon: string
+  voiceProvider?: string
   voiceId: string
   language: string
   speakingStyle: string
+  isPublic?: boolean
   createdAt?: Date | string
   userId: string
 }
 
 export type CompanionUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
-  subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
-  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   companionIcon?: Prisma.StringFieldUpdateOperationsInput | string
+  voiceProvider?: Prisma.StringFieldUpdateOperationsInput | string
   voiceId?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   speakingStyle?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CompanionUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
-  subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
-  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   companionIcon?: Prisma.StringFieldUpdateOperationsInput | string
+  voiceProvider?: Prisma.StringFieldUpdateOperationsInput | string
   voiceId?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   speakingStyle?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -454,32 +457,31 @@ export type CompanionOrderByRelationAggregateInput = {
 export type CompanionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  topic?: Prisma.SortOrder
-  subject?: Prisma.SortOrder
-  duration?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   companionIcon?: Prisma.SortOrder
+  voiceProvider?: Prisma.SortOrder
   voiceId?: Prisma.SortOrder
   language?: Prisma.SortOrder
   speakingStyle?: Prisma.SortOrder
+  isPublic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
 
 export type CompanionAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  duration?: Prisma.SortOrder
 }
 
 export type CompanionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  topic?: Prisma.SortOrder
-  subject?: Prisma.SortOrder
-  duration?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   companionIcon?: Prisma.SortOrder
+  voiceProvider?: Prisma.SortOrder
   voiceId?: Prisma.SortOrder
   language?: Prisma.SortOrder
   speakingStyle?: Prisma.SortOrder
+  isPublic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
@@ -487,25 +489,29 @@ export type CompanionMaxOrderByAggregateInput = {
 export type CompanionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  topic?: Prisma.SortOrder
-  subject?: Prisma.SortOrder
-  duration?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   companionIcon?: Prisma.SortOrder
+  voiceProvider?: Prisma.SortOrder
   voiceId?: Prisma.SortOrder
   language?: Prisma.SortOrder
   speakingStyle?: Prisma.SortOrder
+  isPublic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
 
 export type CompanionSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  duration?: Prisma.SortOrder
 }
 
 export type CompanionScalarRelationFilter = {
   is?: Prisma.CompanionWhereInput
   isNot?: Prisma.CompanionWhereInput
+}
+
+export type CompanionNullableScalarRelationFilter = {
+  is?: Prisma.CompanionWhereInput | null
+  isNot?: Prisma.CompanionWhereInput | null
 }
 
 export type CompanionCreateNestedManyWithoutUserInput = {
@@ -550,8 +556,8 @@ export type CompanionUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.CompanionScalarWhereInput | Prisma.CompanionScalarWhereInput[]
 }
 
-export type EnumSubjectFieldUpdateOperationsInput = {
-  set?: $Enums.Subject
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -562,45 +568,63 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type CompanionCreateNestedOneWithoutBookmarksInput = {
-  create?: Prisma.XOR<Prisma.CompanionCreateWithoutBookmarksInput, Prisma.CompanionUncheckedCreateWithoutBookmarksInput>
-  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutBookmarksInput
+export type CompanionCreateNestedOneWithoutLessonsInput = {
+  create?: Prisma.XOR<Prisma.CompanionCreateWithoutLessonsInput, Prisma.CompanionUncheckedCreateWithoutLessonsInput>
+  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutLessonsInput
   connect?: Prisma.CompanionWhereUniqueInput
 }
 
-export type CompanionUpdateOneRequiredWithoutBookmarksNestedInput = {
-  create?: Prisma.XOR<Prisma.CompanionCreateWithoutBookmarksInput, Prisma.CompanionUncheckedCreateWithoutBookmarksInput>
-  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutBookmarksInput
-  upsert?: Prisma.CompanionUpsertWithoutBookmarksInput
+export type CompanionUpdateOneRequiredWithoutLessonsNestedInput = {
+  create?: Prisma.XOR<Prisma.CompanionCreateWithoutLessonsInput, Prisma.CompanionUncheckedCreateWithoutLessonsInput>
+  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutLessonsInput
+  upsert?: Prisma.CompanionUpsertWithoutLessonsInput
   connect?: Prisma.CompanionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CompanionUpdateToOneWithWhereWithoutBookmarksInput, Prisma.CompanionUpdateWithoutBookmarksInput>, Prisma.CompanionUncheckedUpdateWithoutBookmarksInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CompanionUpdateToOneWithWhereWithoutLessonsInput, Prisma.CompanionUpdateWithoutLessonsInput>, Prisma.CompanionUncheckedUpdateWithoutLessonsInput>
+}
+
+export type CompanionCreateNestedOneWithoutLessonSessionsInput = {
+  create?: Prisma.XOR<Prisma.CompanionCreateWithoutLessonSessionsInput, Prisma.CompanionUncheckedCreateWithoutLessonSessionsInput>
+  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutLessonSessionsInput
+  connect?: Prisma.CompanionWhereUniqueInput
+}
+
+export type CompanionUpdateOneWithoutLessonSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.CompanionCreateWithoutLessonSessionsInput, Prisma.CompanionUncheckedCreateWithoutLessonSessionsInput>
+  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutLessonSessionsInput
+  upsert?: Prisma.CompanionUpsertWithoutLessonSessionsInput
+  disconnect?: Prisma.CompanionWhereInput | boolean
+  delete?: Prisma.CompanionWhereInput | boolean
+  connect?: Prisma.CompanionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CompanionUpdateToOneWithWhereWithoutLessonSessionsInput, Prisma.CompanionUpdateWithoutLessonSessionsInput>, Prisma.CompanionUncheckedUpdateWithoutLessonSessionsInput>
 }
 
 export type CompanionCreateWithoutUserInput = {
   name: string
-  topic: string
-  subject: $Enums.Subject
-  duration: number
+  description?: string
   companionIcon: string
+  voiceProvider?: string
   voiceId: string
   language: string
   speakingStyle: string
+  isPublic?: boolean
   createdAt?: Date | string
-  bookmarks?: Prisma.BookmarkCreateNestedManyWithoutCompanionInput
+  lessons?: Prisma.LessonCreateNestedManyWithoutCompanionInput
+  lessonSessions?: Prisma.LessonSessionCreateNestedManyWithoutCompanionInput
 }
 
 export type CompanionUncheckedCreateWithoutUserInput = {
   id?: number
   name: string
-  topic: string
-  subject: $Enums.Subject
-  duration: number
+  description?: string
   companionIcon: string
+  voiceProvider?: string
   voiceId: string
   language: string
   speakingStyle: string
+  isPublic?: boolean
   createdAt?: Date | string
-  bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutCompanionInput
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCompanionInput
+  lessonSessions?: Prisma.LessonSessionUncheckedCreateNestedManyWithoutCompanionInput
 }
 
 export type CompanionCreateOrConnectWithoutUserInput = {
@@ -635,137 +659,217 @@ export type CompanionScalarWhereInput = {
   NOT?: Prisma.CompanionScalarWhereInput | Prisma.CompanionScalarWhereInput[]
   id?: Prisma.IntFilter<"Companion"> | number
   name?: Prisma.StringFilter<"Companion"> | string
-  topic?: Prisma.StringFilter<"Companion"> | string
-  subject?: Prisma.EnumSubjectFilter<"Companion"> | $Enums.Subject
-  duration?: Prisma.IntFilter<"Companion"> | number
+  description?: Prisma.StringFilter<"Companion"> | string
   companionIcon?: Prisma.StringFilter<"Companion"> | string
+  voiceProvider?: Prisma.StringFilter<"Companion"> | string
   voiceId?: Prisma.StringFilter<"Companion"> | string
   language?: Prisma.StringFilter<"Companion"> | string
   speakingStyle?: Prisma.StringFilter<"Companion"> | string
+  isPublic?: Prisma.BoolFilter<"Companion"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Companion"> | Date | string
   userId?: Prisma.StringFilter<"Companion"> | string
 }
 
-export type CompanionCreateWithoutBookmarksInput = {
+export type CompanionCreateWithoutLessonsInput = {
   name: string
-  topic: string
-  subject: $Enums.Subject
-  duration: number
+  description?: string
   companionIcon: string
+  voiceProvider?: string
   voiceId: string
   language: string
   speakingStyle: string
+  isPublic?: boolean
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCompanionsInput
+  lessonSessions?: Prisma.LessonSessionCreateNestedManyWithoutCompanionInput
 }
 
-export type CompanionUncheckedCreateWithoutBookmarksInput = {
+export type CompanionUncheckedCreateWithoutLessonsInput = {
   id?: number
   name: string
-  topic: string
-  subject: $Enums.Subject
-  duration: number
+  description?: string
   companionIcon: string
+  voiceProvider?: string
   voiceId: string
   language: string
   speakingStyle: string
+  isPublic?: boolean
   createdAt?: Date | string
   userId: string
+  lessonSessions?: Prisma.LessonSessionUncheckedCreateNestedManyWithoutCompanionInput
 }
 
-export type CompanionCreateOrConnectWithoutBookmarksInput = {
+export type CompanionCreateOrConnectWithoutLessonsInput = {
   where: Prisma.CompanionWhereUniqueInput
-  create: Prisma.XOR<Prisma.CompanionCreateWithoutBookmarksInput, Prisma.CompanionUncheckedCreateWithoutBookmarksInput>
+  create: Prisma.XOR<Prisma.CompanionCreateWithoutLessonsInput, Prisma.CompanionUncheckedCreateWithoutLessonsInput>
 }
 
-export type CompanionUpsertWithoutBookmarksInput = {
-  update: Prisma.XOR<Prisma.CompanionUpdateWithoutBookmarksInput, Prisma.CompanionUncheckedUpdateWithoutBookmarksInput>
-  create: Prisma.XOR<Prisma.CompanionCreateWithoutBookmarksInput, Prisma.CompanionUncheckedCreateWithoutBookmarksInput>
+export type CompanionUpsertWithoutLessonsInput = {
+  update: Prisma.XOR<Prisma.CompanionUpdateWithoutLessonsInput, Prisma.CompanionUncheckedUpdateWithoutLessonsInput>
+  create: Prisma.XOR<Prisma.CompanionCreateWithoutLessonsInput, Prisma.CompanionUncheckedCreateWithoutLessonsInput>
   where?: Prisma.CompanionWhereInput
 }
 
-export type CompanionUpdateToOneWithWhereWithoutBookmarksInput = {
+export type CompanionUpdateToOneWithWhereWithoutLessonsInput = {
   where?: Prisma.CompanionWhereInput
-  data: Prisma.XOR<Prisma.CompanionUpdateWithoutBookmarksInput, Prisma.CompanionUncheckedUpdateWithoutBookmarksInput>
+  data: Prisma.XOR<Prisma.CompanionUpdateWithoutLessonsInput, Prisma.CompanionUncheckedUpdateWithoutLessonsInput>
 }
 
-export type CompanionUpdateWithoutBookmarksInput = {
+export type CompanionUpdateWithoutLessonsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
-  subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
-  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   companionIcon?: Prisma.StringFieldUpdateOperationsInput | string
+  voiceProvider?: Prisma.StringFieldUpdateOperationsInput | string
   voiceId?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   speakingStyle?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCompanionsNestedInput
+  lessonSessions?: Prisma.LessonSessionUpdateManyWithoutCompanionNestedInput
 }
 
-export type CompanionUncheckedUpdateWithoutBookmarksInput = {
+export type CompanionUncheckedUpdateWithoutLessonsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
-  subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
-  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   companionIcon?: Prisma.StringFieldUpdateOperationsInput | string
+  voiceProvider?: Prisma.StringFieldUpdateOperationsInput | string
   voiceId?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   speakingStyle?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  lessonSessions?: Prisma.LessonSessionUncheckedUpdateManyWithoutCompanionNestedInput
+}
+
+export type CompanionCreateWithoutLessonSessionsInput = {
+  name: string
+  description?: string
+  companionIcon: string
+  voiceProvider?: string
+  voiceId: string
+  language: string
+  speakingStyle: string
+  isPublic?: boolean
+  createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutCompanionsInput
+  lessons?: Prisma.LessonCreateNestedManyWithoutCompanionInput
+}
+
+export type CompanionUncheckedCreateWithoutLessonSessionsInput = {
+  id?: number
+  name: string
+  description?: string
+  companionIcon: string
+  voiceProvider?: string
+  voiceId: string
+  language: string
+  speakingStyle: string
+  isPublic?: boolean
+  createdAt?: Date | string
+  userId: string
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCompanionInput
+}
+
+export type CompanionCreateOrConnectWithoutLessonSessionsInput = {
+  where: Prisma.CompanionWhereUniqueInput
+  create: Prisma.XOR<Prisma.CompanionCreateWithoutLessonSessionsInput, Prisma.CompanionUncheckedCreateWithoutLessonSessionsInput>
+}
+
+export type CompanionUpsertWithoutLessonSessionsInput = {
+  update: Prisma.XOR<Prisma.CompanionUpdateWithoutLessonSessionsInput, Prisma.CompanionUncheckedUpdateWithoutLessonSessionsInput>
+  create: Prisma.XOR<Prisma.CompanionCreateWithoutLessonSessionsInput, Prisma.CompanionUncheckedCreateWithoutLessonSessionsInput>
+  where?: Prisma.CompanionWhereInput
+}
+
+export type CompanionUpdateToOneWithWhereWithoutLessonSessionsInput = {
+  where?: Prisma.CompanionWhereInput
+  data: Prisma.XOR<Prisma.CompanionUpdateWithoutLessonSessionsInput, Prisma.CompanionUncheckedUpdateWithoutLessonSessionsInput>
+}
+
+export type CompanionUpdateWithoutLessonSessionsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  companionIcon?: Prisma.StringFieldUpdateOperationsInput | string
+  voiceProvider?: Prisma.StringFieldUpdateOperationsInput | string
+  voiceId?: Prisma.StringFieldUpdateOperationsInput | string
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  speakingStyle?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutCompanionsNestedInput
+  lessons?: Prisma.LessonUpdateManyWithoutCompanionNestedInput
+}
+
+export type CompanionUncheckedUpdateWithoutLessonSessionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  companionIcon?: Prisma.StringFieldUpdateOperationsInput | string
+  voiceProvider?: Prisma.StringFieldUpdateOperationsInput | string
+  voiceId?: Prisma.StringFieldUpdateOperationsInput | string
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  speakingStyle?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCompanionNestedInput
 }
 
 export type CompanionCreateManyUserInput = {
   id?: number
   name: string
-  topic: string
-  subject: $Enums.Subject
-  duration: number
+  description?: string
   companionIcon: string
+  voiceProvider?: string
   voiceId: string
   language: string
   speakingStyle: string
+  isPublic?: boolean
   createdAt?: Date | string
 }
 
 export type CompanionUpdateWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
-  subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
-  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   companionIcon?: Prisma.StringFieldUpdateOperationsInput | string
+  voiceProvider?: Prisma.StringFieldUpdateOperationsInput | string
   voiceId?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   speakingStyle?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  bookmarks?: Prisma.BookmarkUpdateManyWithoutCompanionNestedInput
+  lessons?: Prisma.LessonUpdateManyWithoutCompanionNestedInput
+  lessonSessions?: Prisma.LessonSessionUpdateManyWithoutCompanionNestedInput
 }
 
 export type CompanionUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
-  subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
-  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   companionIcon?: Prisma.StringFieldUpdateOperationsInput | string
+  voiceProvider?: Prisma.StringFieldUpdateOperationsInput | string
   voiceId?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   speakingStyle?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutCompanionNestedInput
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCompanionNestedInput
+  lessonSessions?: Prisma.LessonSessionUncheckedUpdateManyWithoutCompanionNestedInput
 }
 
 export type CompanionUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  topic?: Prisma.StringFieldUpdateOperationsInput | string
-  subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
-  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   companionIcon?: Prisma.StringFieldUpdateOperationsInput | string
+  voiceProvider?: Prisma.StringFieldUpdateOperationsInput | string
   voiceId?: Prisma.StringFieldUpdateOperationsInput | string
   language?: Prisma.StringFieldUpdateOperationsInput | string
   speakingStyle?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -775,11 +879,13 @@ export type CompanionUncheckedUpdateManyWithoutUserInput = {
  */
 
 export type CompanionCountOutputType = {
-  bookmarks: number
+  lessons: number
+  lessonSessions: number
 }
 
 export type CompanionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  bookmarks?: boolean | CompanionCountOutputTypeCountBookmarksArgs
+  lessons?: boolean | CompanionCountOutputTypeCountLessonsArgs
+  lessonSessions?: boolean | CompanionCountOutputTypeCountLessonSessionsArgs
 }
 
 /**
@@ -795,38 +901,46 @@ export type CompanionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
 /**
  * CompanionCountOutputType without action
  */
-export type CompanionCountOutputTypeCountBookmarksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.BookmarkWhereInput
+export type CompanionCountOutputTypeCountLessonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LessonWhereInput
+}
+
+/**
+ * CompanionCountOutputType without action
+ */
+export type CompanionCountOutputTypeCountLessonSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LessonSessionWhereInput
 }
 
 
 export type CompanionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  topic?: boolean
-  subject?: boolean
-  duration?: boolean
+  description?: boolean
   companionIcon?: boolean
+  voiceProvider?: boolean
   voiceId?: boolean
   language?: boolean
   speakingStyle?: boolean
+  isPublic?: boolean
   createdAt?: boolean
   userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  bookmarks?: boolean | Prisma.Companion$bookmarksArgs<ExtArgs>
+  lessons?: boolean | Prisma.Companion$lessonsArgs<ExtArgs>
+  lessonSessions?: boolean | Prisma.Companion$lessonSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.CompanionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["companion"]>
 
 export type CompanionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  topic?: boolean
-  subject?: boolean
-  duration?: boolean
+  description?: boolean
   companionIcon?: boolean
+  voiceProvider?: boolean
   voiceId?: boolean
   language?: boolean
   speakingStyle?: boolean
+  isPublic?: boolean
   createdAt?: boolean
   userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -835,13 +949,13 @@ export type CompanionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type CompanionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  topic?: boolean
-  subject?: boolean
-  duration?: boolean
+  description?: boolean
   companionIcon?: boolean
+  voiceProvider?: boolean
   voiceId?: boolean
   language?: boolean
   speakingStyle?: boolean
+  isPublic?: boolean
   createdAt?: boolean
   userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -850,21 +964,22 @@ export type CompanionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type CompanionSelectScalar = {
   id?: boolean
   name?: boolean
-  topic?: boolean
-  subject?: boolean
-  duration?: boolean
+  description?: boolean
   companionIcon?: boolean
+  voiceProvider?: boolean
   voiceId?: boolean
   language?: boolean
   speakingStyle?: boolean
+  isPublic?: boolean
   createdAt?: boolean
   userId?: boolean
 }
 
-export type CompanionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "topic" | "subject" | "duration" | "companionIcon" | "voiceId" | "language" | "speakingStyle" | "createdAt" | "userId", ExtArgs["result"]["companion"]>
+export type CompanionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "companionIcon" | "voiceProvider" | "voiceId" | "language" | "speakingStyle" | "isPublic" | "createdAt" | "userId", ExtArgs["result"]["companion"]>
 export type CompanionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  bookmarks?: boolean | Prisma.Companion$bookmarksArgs<ExtArgs>
+  lessons?: boolean | Prisma.Companion$lessonsArgs<ExtArgs>
+  lessonSessions?: boolean | Prisma.Companion$lessonSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.CompanionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CompanionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -878,18 +993,19 @@ export type $CompanionPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   name: "Companion"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
-    bookmarks: Prisma.$BookmarkPayload<ExtArgs>[]
+    lessons: Prisma.$LessonPayload<ExtArgs>[]
+    lessonSessions: Prisma.$LessonSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
-    topic: string
-    subject: $Enums.Subject
-    duration: number
+    description: string
     companionIcon: string
+    voiceProvider: string
     voiceId: string
     language: string
     speakingStyle: string
+    isPublic: boolean
     createdAt: Date
     userId: string
   }, ExtArgs["result"]["companion"]>
@@ -1287,7 +1403,8 @@ readonly fields: CompanionFieldRefs;
 export interface Prisma__CompanionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  bookmarks<T extends Prisma.Companion$bookmarksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Companion$bookmarksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookmarkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  lessons<T extends Prisma.Companion$lessonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Companion$lessonsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  lessonSessions<T extends Prisma.Companion$lessonSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Companion$lessonSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LessonSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1319,13 +1436,13 @@ export interface Prisma__CompanionClient<T, Null = never, ExtArgs extends runtim
 export interface CompanionFieldRefs {
   readonly id: Prisma.FieldRef<"Companion", 'Int'>
   readonly name: Prisma.FieldRef<"Companion", 'String'>
-  readonly topic: Prisma.FieldRef<"Companion", 'String'>
-  readonly subject: Prisma.FieldRef<"Companion", 'Subject'>
-  readonly duration: Prisma.FieldRef<"Companion", 'Int'>
+  readonly description: Prisma.FieldRef<"Companion", 'String'>
   readonly companionIcon: Prisma.FieldRef<"Companion", 'String'>
+  readonly voiceProvider: Prisma.FieldRef<"Companion", 'String'>
   readonly voiceId: Prisma.FieldRef<"Companion", 'String'>
   readonly language: Prisma.FieldRef<"Companion", 'String'>
   readonly speakingStyle: Prisma.FieldRef<"Companion", 'String'>
+  readonly isPublic: Prisma.FieldRef<"Companion", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Companion", 'DateTime'>
   readonly userId: Prisma.FieldRef<"Companion", 'String'>
 }
@@ -1729,27 +1846,51 @@ export type CompanionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * Companion.bookmarks
+ * Companion.lessons
  */
-export type Companion$bookmarksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Companion$lessonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Bookmark
+   * Select specific fields to fetch from the Lesson
    */
-  select?: Prisma.BookmarkSelect<ExtArgs> | null
+  select?: Prisma.LessonSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Bookmark
+   * Omit specific fields from the Lesson
    */
-  omit?: Prisma.BookmarkOmit<ExtArgs> | null
+  omit?: Prisma.LessonOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.BookmarkInclude<ExtArgs> | null
-  where?: Prisma.BookmarkWhereInput
-  orderBy?: Prisma.BookmarkOrderByWithRelationInput | Prisma.BookmarkOrderByWithRelationInput[]
-  cursor?: Prisma.BookmarkWhereUniqueInput
+  include?: Prisma.LessonInclude<ExtArgs> | null
+  where?: Prisma.LessonWhereInput
+  orderBy?: Prisma.LessonOrderByWithRelationInput | Prisma.LessonOrderByWithRelationInput[]
+  cursor?: Prisma.LessonWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.BookmarkScalarFieldEnum | Prisma.BookmarkScalarFieldEnum[]
+  distinct?: Prisma.LessonScalarFieldEnum | Prisma.LessonScalarFieldEnum[]
+}
+
+/**
+ * Companion.lessonSessions
+ */
+export type Companion$lessonSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LessonSession
+   */
+  select?: Prisma.LessonSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LessonSession
+   */
+  omit?: Prisma.LessonSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LessonSessionInclude<ExtArgs> | null
+  where?: Prisma.LessonSessionWhereInput
+  orderBy?: Prisma.LessonSessionOrderByWithRelationInput | Prisma.LessonSessionOrderByWithRelationInput[]
+  cursor?: Prisma.LessonSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LessonSessionScalarFieldEnum | Prisma.LessonSessionScalarFieldEnum[]
 }
 
 /**

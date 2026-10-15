@@ -10,5 +10,7 @@
  */
 export type * from './models/User'
 export type * from './models/Companion'
+export type * from './models/Lesson'
 export type * from './models/Bookmark'
+export type * from './models/LessonSession'
 export type * from './commonInputTypes'

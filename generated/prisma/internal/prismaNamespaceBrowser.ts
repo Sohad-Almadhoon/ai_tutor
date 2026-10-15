@@ -53,7 +53,9 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Companion: 'Companion',
-  Bookmark: 'Bookmark'
+  Lesson: 'Lesson',
+  Bookmark: 'Bookmark',
+  LessonSession: 'LessonSession'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -85,13 +87,13 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const CompanionScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  topic: 'topic',
-  subject: 'subject',
-  duration: 'duration',
+  description: 'description',
   companionIcon: 'companionIcon',
+  voiceProvider: 'voiceProvider',
   voiceId: 'voiceId',
   language: 'language',
   speakingStyle: 'speakingStyle',
+  isPublic: 'isPublic',
   createdAt: 'createdAt',
   userId: 'userId'
 } as const
@@ -99,14 +101,41 @@ export const CompanionScalarFieldEnum = {
 export type CompanionScalarFieldEnum = (typeof CompanionScalarFieldEnum)[keyof typeof CompanionScalarFieldEnum]
 
 
+export const LessonScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  topic: 'topic',
+  subject: 'subject',
+  targetDurationMinutes: 'targetDurationMinutes',
+  createdAt: 'createdAt',
+  companionId: 'companionId'
+} as const
+
+export type LessonScalarFieldEnum = (typeof LessonScalarFieldEnum)[keyof typeof LessonScalarFieldEnum]
+
+
 export const BookmarkScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  companionId: 'companionId',
+  lessonId: 'lessonId',
   createdAt: 'createdAt'
 } as const
 
 export type BookmarkScalarFieldEnum = (typeof BookmarkScalarFieldEnum)[keyof typeof BookmarkScalarFieldEnum]
+
+
+export const LessonSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  lessonId: 'lessonId',
+  companionId: 'companionId',
+  status: 'status',
+  startedAt: 'startedAt',
+  endedAt: 'endedAt',
+  durationSeconds: 'durationSeconds'
+} as const
+
+export type LessonSessionScalarFieldEnum = (typeof LessonSessionScalarFieldEnum)[keyof typeof LessonSessionScalarFieldEnum]
 
 
 export const SortOrder = {

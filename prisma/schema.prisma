@@ -16,42 +16,83 @@ enum Subject {
   Economics
 }
 
+enum LessonSessionStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+}
+
 model User {
   id        String   @id // Clerk user ID
   name      String?
   email     String?  @unique
   createdAt DateTime @default(now())
 
-  companions Companion[]
-  bookmarks  Bookmark[]
+  companions     Companion[]
+  bookmarks      Bookmark[]
+  lessonSessions LessonSession[]
 }
 
 model Companion {
   id            Int      @id @default(autoincrement())
   name          String
-  topic         String
-  subject       Subject
-  duration      Int
+  description   String   @default("")
   companionIcon String
+  voiceProvider String   @default("11labs")
   voiceId       String
   language      String
   speakingStyle String
+  isPublic      Boolean  @default(false)
   createdAt     DateTime @default(now())
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  bookmarks Bookmark[]
+  lessons        Lesson[]
+  lessonSessions LessonSession[]
+}
+
+model Lesson {
+  id                    Int      @id @default(autoincrement())
+  name                  String
+  topic                 String
+  subject               Subject
+  targetDurationMinutes Int
+  createdAt             DateTime @default(now())
+
+  companionId Int
+  companion   Companion @relation(fields: [companionId], references: [id], onDelete: Cascade)
+
+  bookmarks      Bookmark[]
+  lessonSessions LessonSession[]
 }
 
 model Bookmark {
-  id          Int      @id @default(autoincrement())
-  userId      String
-  companionId Int
-  createdAt   DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  userId    String
+  lessonId  Int
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+}
+
+model LessonSession {
+  id              Int                 @id @default(autoincrement())
+  userId          String
+  lessonId        Int
+  companionId     Int?
+  status          LessonSessionStatus @default(IN_PROGRESS)
+  startedAt       DateTime            @default(now())
+  endedAt         DateTime?
+  durationSeconds Int?
 
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  companion Companion @relation(fields: [companionId], references: [id], onDelete: Cascade)
+  lesson    Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  companion Companion? @relation(fields: [companionId], references: [id], onDelete: SetNull)
 
-  @@unique([userId, companionId])
+  @@index([userId, status, endedAt])
+  @@index([lessonId])
 }
