@@ -4,12 +4,13 @@ This checklist reflects the current repository state. Core Prisma relationships 
 
 ## Priority 1 — Make the learning flow usable
 
-- [ ] Build the Lesson Library: list public lessons, search by lesson/companion/topic, filter by subject, and show the original lesson owner-companion.
-- [ ] Build the Companion details page. `app/companions/[id]/page.tsx` is currently empty; show the tutor, its lessons, and owner controls.
-- [ ] Build the My Journey page. `app/my-journey/page.tsx` is currently empty; show session history, status, duration, lesson, original tutor, and selected session tutor.
-- [ ] Add a lesson-start flow that lets the learner choose an available Companion and calls `startLessonSessionAction(lessonId, companionId)`. The action supports a selected tutor, but the UI does not offer that choice yet.
-- [ ] Connect the lesson experience to Vapi: create/configure the assistant or call, pass the selected provider and voice, provide the lesson and tutor context, and handle call start/end/errors.
-- [ ] Mark sessions `COMPLETED` when the learner finishes and `ABANDONED` when they leave without finishing. The current action supports completion only.
+- [x] Build the Lesson Library: list public lessons, search by lesson/companion/topic, and filter by subject.
+- [x] Build the Companion details page with tutor information and lesson previews.
+- [x] Build My Journey with learning statistics and recently completed sessions.
+- [x] Build My Learning Sessions with status filters, duration, lesson, and selected tutor.
+- [x] Add a lesson-start flow that lets the learner choose an available Companion and calls `startLessonSessionAction(lessonId, companionId)`.
+- [x] Connect the lesson experience to Vapi: pass the selected provider and voice, provide lesson and tutor context, and handle call start/end/errors.
+- [x] Mark sessions `COMPLETED` when the learner finishes and `ABANDONED` when the call cannot start or the learner leaves the lesson page.
 
 ## Priority 2 — Finish Companion and lesson management
 
@@ -22,7 +23,7 @@ This checklist reflects the current repository state. Core Prisma relationships 
 ## Priority 3 — User and voice configuration
 
 - [ ] Ensure every Clerk account has a corresponding database `User` before creating Companions or Bookmarks. Session start currently upserts the user, but Companion creation relies on the user row already existing.
-- [ ] Configure and verify Vapi credentials and the enabled voice providers in the target environment.
+- [ ] Configure and verify Vapi credentials and the enabled voice providers in the target environment (see the README setup instructions).
 - [ ] Verify each listed voice ID and provider against the Vapi account; keep the picker limited to voices actually available to the project.
 - [ ] Decide how to handle learners whose selected voice provider is unavailable or whose provider credentials are not configured.
 

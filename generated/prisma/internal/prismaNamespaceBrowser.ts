@@ -107,8 +107,10 @@ export const LessonScalarFieldEnum = {
   topic: 'topic',
   subject: 'subject',
   targetDurationMinutes: 'targetDurationMinutes',
+  isPublic: 'isPublic',
   createdAt: 'createdAt',
-  companionId: 'companionId'
+  createdById: 'createdById',
+  defaultCompanionId: 'defaultCompanionId'
 } as const
 
 export type LessonScalarFieldEnum = (typeof LessonScalarFieldEnum)[keyof typeof LessonScalarFieldEnum]

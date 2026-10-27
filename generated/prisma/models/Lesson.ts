@@ -29,13 +29,13 @@ export type AggregateLesson = {
 export type LessonAvgAggregateOutputType = {
   id: number | null
   targetDurationMinutes: number | null
-  companionId: number | null
+  defaultCompanionId: number | null
 }
 
 export type LessonSumAggregateOutputType = {
   id: number | null
   targetDurationMinutes: number | null
-  companionId: number | null
+  defaultCompanionId: number | null
 }
 
 export type LessonMinAggregateOutputType = {
@@ -44,8 +44,10 @@ export type LessonMinAggregateOutputType = {
   topic: string | null
   subject: $Enums.Subject | null
   targetDurationMinutes: number | null
+  isPublic: boolean | null
   createdAt: Date | null
-  companionId: number | null
+  createdById: string | null
+  defaultCompanionId: number | null
 }
 
 export type LessonMaxAggregateOutputType = {
@@ -54,8 +56,10 @@ export type LessonMaxAggregateOutputType = {
   topic: string | null
   subject: $Enums.Subject | null
   targetDurationMinutes: number | null
+  isPublic: boolean | null
   createdAt: Date | null
-  companionId: number | null
+  createdById: string | null
+  defaultCompanionId: number | null
 }
 
 export type LessonCountAggregateOutputType = {
@@ -64,8 +68,10 @@ export type LessonCountAggregateOutputType = {
   topic: number
   subject: number
   targetDurationMinutes: number
+  isPublic: number
   createdAt: number
-  companionId: number
+  createdById: number
+  defaultCompanionId: number
   _all: number
 }
 
@@ -73,13 +79,13 @@ export type LessonCountAggregateOutputType = {
 export type LessonAvgAggregateInputType = {
   id?: true
   targetDurationMinutes?: true
-  companionId?: true
+  defaultCompanionId?: true
 }
 
 export type LessonSumAggregateInputType = {
   id?: true
   targetDurationMinutes?: true
-  companionId?: true
+  defaultCompanionId?: true
 }
 
 export type LessonMinAggregateInputType = {
@@ -88,8 +94,10 @@ export type LessonMinAggregateInputType = {
   topic?: true
   subject?: true
   targetDurationMinutes?: true
+  isPublic?: true
   createdAt?: true
-  companionId?: true
+  createdById?: true
+  defaultCompanionId?: true
 }
 
 export type LessonMaxAggregateInputType = {
@@ -98,8 +106,10 @@ export type LessonMaxAggregateInputType = {
   topic?: true
   subject?: true
   targetDurationMinutes?: true
+  isPublic?: true
   createdAt?: true
-  companionId?: true
+  createdById?: true
+  defaultCompanionId?: true
 }
 
 export type LessonCountAggregateInputType = {
@@ -108,8 +118,10 @@ export type LessonCountAggregateInputType = {
   topic?: true
   subject?: true
   targetDurationMinutes?: true
+  isPublic?: true
   createdAt?: true
-  companionId?: true
+  createdById?: true
+  defaultCompanionId?: true
   _all?: true
 }
 
@@ -205,8 +217,10 @@ export type LessonGroupByOutputType = {
   topic: string
   subject: $Enums.Subject
   targetDurationMinutes: number
+  isPublic: boolean
   createdAt: Date
-  companionId: number
+  createdById: string
+  defaultCompanionId: number | null
   _count: LessonCountAggregateOutputType | null
   _avg: LessonAvgAggregateOutputType | null
   _sum: LessonSumAggregateOutputType | null
@@ -238,9 +252,12 @@ export type LessonWhereInput = {
   topic?: Prisma.StringFilter<"Lesson"> | string
   subject?: Prisma.EnumSubjectFilter<"Lesson"> | $Enums.Subject
   targetDurationMinutes?: Prisma.IntFilter<"Lesson"> | number
+  isPublic?: Prisma.BoolFilter<"Lesson"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
-  companionId?: Prisma.IntFilter<"Lesson"> | number
-  companion?: Prisma.XOR<Prisma.CompanionScalarRelationFilter, Prisma.CompanionWhereInput>
+  createdById?: Prisma.StringFilter<"Lesson"> | string
+  defaultCompanionId?: Prisma.IntNullableFilter<"Lesson"> | number | null
+  createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  defaultCompanion?: Prisma.XOR<Prisma.CompanionNullableScalarRelationFilter, Prisma.CompanionWhereInput> | null
   bookmarks?: Prisma.BookmarkListRelationFilter
   lessonSessions?: Prisma.LessonSessionListRelationFilter
 }
@@ -251,9 +268,12 @@ export type LessonOrderByWithRelationInput = {
   topic?: Prisma.SortOrder
   subject?: Prisma.SortOrder
   targetDurationMinutes?: Prisma.SortOrder
+  isPublic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  companionId?: Prisma.SortOrder
-  companion?: Prisma.CompanionOrderByWithRelationInput
+  createdById?: Prisma.SortOrder
+  defaultCompanionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdBy?: Prisma.UserOrderByWithRelationInput
+  defaultCompanion?: Prisma.CompanionOrderByWithRelationInput
   bookmarks?: Prisma.BookmarkOrderByRelationAggregateInput
   lessonSessions?: Prisma.LessonSessionOrderByRelationAggregateInput
 }
@@ -267,9 +287,12 @@ export type LessonWhereUniqueInput = Prisma.AtLeast<{
   topic?: Prisma.StringFilter<"Lesson"> | string
   subject?: Prisma.EnumSubjectFilter<"Lesson"> | $Enums.Subject
   targetDurationMinutes?: Prisma.IntFilter<"Lesson"> | number
+  isPublic?: Prisma.BoolFilter<"Lesson"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
-  companionId?: Prisma.IntFilter<"Lesson"> | number
-  companion?: Prisma.XOR<Prisma.CompanionScalarRelationFilter, Prisma.CompanionWhereInput>
+  createdById?: Prisma.StringFilter<"Lesson"> | string
+  defaultCompanionId?: Prisma.IntNullableFilter<"Lesson"> | number | null
+  createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  defaultCompanion?: Prisma.XOR<Prisma.CompanionNullableScalarRelationFilter, Prisma.CompanionWhereInput> | null
   bookmarks?: Prisma.BookmarkListRelationFilter
   lessonSessions?: Prisma.LessonSessionListRelationFilter
 }, "id">
@@ -280,8 +303,10 @@ export type LessonOrderByWithAggregationInput = {
   topic?: Prisma.SortOrder
   subject?: Prisma.SortOrder
   targetDurationMinutes?: Prisma.SortOrder
+  isPublic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  companionId?: Prisma.SortOrder
+  createdById?: Prisma.SortOrder
+  defaultCompanionId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.LessonCountOrderByAggregateInput
   _avg?: Prisma.LessonAvgOrderByAggregateInput
   _max?: Prisma.LessonMaxOrderByAggregateInput
@@ -298,8 +323,10 @@ export type LessonScalarWhereWithAggregatesInput = {
   topic?: Prisma.StringWithAggregatesFilter<"Lesson"> | string
   subject?: Prisma.EnumSubjectWithAggregatesFilter<"Lesson"> | $Enums.Subject
   targetDurationMinutes?: Prisma.IntWithAggregatesFilter<"Lesson"> | number
+  isPublic?: Prisma.BoolWithAggregatesFilter<"Lesson"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Lesson"> | Date | string
-  companionId?: Prisma.IntWithAggregatesFilter<"Lesson"> | number
+  createdById?: Prisma.StringWithAggregatesFilter<"Lesson"> | string
+  defaultCompanionId?: Prisma.IntNullableWithAggregatesFilter<"Lesson"> | number | null
 }
 
 export type LessonCreateInput = {
@@ -307,8 +334,10 @@ export type LessonCreateInput = {
   topic: string
   subject: $Enums.Subject
   targetDurationMinutes: number
+  isPublic?: boolean
   createdAt?: Date | string
-  companion: Prisma.CompanionCreateNestedOneWithoutLessonsInput
+  createdBy: Prisma.UserCreateNestedOneWithoutLessonsInput
+  defaultCompanion?: Prisma.CompanionCreateNestedOneWithoutDefaultLessonsInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutLessonInput
   lessonSessions?: Prisma.LessonSessionCreateNestedManyWithoutLessonInput
 }
@@ -319,8 +348,10 @@ export type LessonUncheckedCreateInput = {
   topic: string
   subject: $Enums.Subject
   targetDurationMinutes: number
+  isPublic?: boolean
   createdAt?: Date | string
-  companionId: number
+  createdById: string
+  defaultCompanionId?: number | null
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutLessonInput
   lessonSessions?: Prisma.LessonSessionUncheckedCreateNestedManyWithoutLessonInput
 }
@@ -330,8 +361,10 @@ export type LessonUpdateInput = {
   topic?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   targetDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  companion?: Prisma.CompanionUpdateOneRequiredWithoutLessonsNestedInput
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutLessonsNestedInput
+  defaultCompanion?: Prisma.CompanionUpdateOneWithoutDefaultLessonsNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutLessonNestedInput
   lessonSessions?: Prisma.LessonSessionUpdateManyWithoutLessonNestedInput
 }
@@ -342,8 +375,10 @@ export type LessonUncheckedUpdateInput = {
   topic?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   targetDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  companionId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  defaultCompanionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutLessonNestedInput
   lessonSessions?: Prisma.LessonSessionUncheckedUpdateManyWithoutLessonNestedInput
 }
@@ -354,8 +389,10 @@ export type LessonCreateManyInput = {
   topic: string
   subject: $Enums.Subject
   targetDurationMinutes: number
+  isPublic?: boolean
   createdAt?: Date | string
-  companionId: number
+  createdById: string
+  defaultCompanionId?: number | null
 }
 
 export type LessonUpdateManyMutationInput = {
@@ -363,6 +400,7 @@ export type LessonUpdateManyMutationInput = {
   topic?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   targetDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -372,8 +410,10 @@ export type LessonUncheckedUpdateManyInput = {
   topic?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   targetDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  companionId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  defaultCompanionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type LessonListRelationFilter = {
@@ -392,14 +432,16 @@ export type LessonCountOrderByAggregateInput = {
   topic?: Prisma.SortOrder
   subject?: Prisma.SortOrder
   targetDurationMinutes?: Prisma.SortOrder
+  isPublic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  companionId?: Prisma.SortOrder
+  createdById?: Prisma.SortOrder
+  defaultCompanionId?: Prisma.SortOrder
 }
 
 export type LessonAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   targetDurationMinutes?: Prisma.SortOrder
-  companionId?: Prisma.SortOrder
+  defaultCompanionId?: Prisma.SortOrder
 }
 
 export type LessonMaxOrderByAggregateInput = {
@@ -408,8 +450,10 @@ export type LessonMaxOrderByAggregateInput = {
   topic?: Prisma.SortOrder
   subject?: Prisma.SortOrder
   targetDurationMinutes?: Prisma.SortOrder
+  isPublic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  companionId?: Prisma.SortOrder
+  createdById?: Prisma.SortOrder
+  defaultCompanionId?: Prisma.SortOrder
 }
 
 export type LessonMinOrderByAggregateInput = {
@@ -418,14 +462,16 @@ export type LessonMinOrderByAggregateInput = {
   topic?: Prisma.SortOrder
   subject?: Prisma.SortOrder
   targetDurationMinutes?: Prisma.SortOrder
+  isPublic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  companionId?: Prisma.SortOrder
+  createdById?: Prisma.SortOrder
+  defaultCompanionId?: Prisma.SortOrder
 }
 
 export type LessonSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   targetDurationMinutes?: Prisma.SortOrder
-  companionId?: Prisma.SortOrder
+  defaultCompanionId?: Prisma.SortOrder
 }
 
 export type LessonScalarRelationFilter = {
@@ -433,50 +479,100 @@ export type LessonScalarRelationFilter = {
   isNot?: Prisma.LessonWhereInput
 }
 
-export type LessonCreateNestedManyWithoutCompanionInput = {
-  create?: Prisma.XOR<Prisma.LessonCreateWithoutCompanionInput, Prisma.LessonUncheckedCreateWithoutCompanionInput> | Prisma.LessonCreateWithoutCompanionInput[] | Prisma.LessonUncheckedCreateWithoutCompanionInput[]
-  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutCompanionInput | Prisma.LessonCreateOrConnectWithoutCompanionInput[]
-  createMany?: Prisma.LessonCreateManyCompanionInputEnvelope
+export type LessonCreateNestedManyWithoutCreatedByInput = {
+  create?: Prisma.XOR<Prisma.LessonCreateWithoutCreatedByInput, Prisma.LessonUncheckedCreateWithoutCreatedByInput> | Prisma.LessonCreateWithoutCreatedByInput[] | Prisma.LessonUncheckedCreateWithoutCreatedByInput[]
+  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutCreatedByInput | Prisma.LessonCreateOrConnectWithoutCreatedByInput[]
+  createMany?: Prisma.LessonCreateManyCreatedByInputEnvelope
   connect?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
 }
 
-export type LessonUncheckedCreateNestedManyWithoutCompanionInput = {
-  create?: Prisma.XOR<Prisma.LessonCreateWithoutCompanionInput, Prisma.LessonUncheckedCreateWithoutCompanionInput> | Prisma.LessonCreateWithoutCompanionInput[] | Prisma.LessonUncheckedCreateWithoutCompanionInput[]
-  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutCompanionInput | Prisma.LessonCreateOrConnectWithoutCompanionInput[]
-  createMany?: Prisma.LessonCreateManyCompanionInputEnvelope
+export type LessonUncheckedCreateNestedManyWithoutCreatedByInput = {
+  create?: Prisma.XOR<Prisma.LessonCreateWithoutCreatedByInput, Prisma.LessonUncheckedCreateWithoutCreatedByInput> | Prisma.LessonCreateWithoutCreatedByInput[] | Prisma.LessonUncheckedCreateWithoutCreatedByInput[]
+  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutCreatedByInput | Prisma.LessonCreateOrConnectWithoutCreatedByInput[]
+  createMany?: Prisma.LessonCreateManyCreatedByInputEnvelope
   connect?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
 }
 
-export type LessonUpdateManyWithoutCompanionNestedInput = {
-  create?: Prisma.XOR<Prisma.LessonCreateWithoutCompanionInput, Prisma.LessonUncheckedCreateWithoutCompanionInput> | Prisma.LessonCreateWithoutCompanionInput[] | Prisma.LessonUncheckedCreateWithoutCompanionInput[]
-  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutCompanionInput | Prisma.LessonCreateOrConnectWithoutCompanionInput[]
-  upsert?: Prisma.LessonUpsertWithWhereUniqueWithoutCompanionInput | Prisma.LessonUpsertWithWhereUniqueWithoutCompanionInput[]
-  createMany?: Prisma.LessonCreateManyCompanionInputEnvelope
+export type LessonUpdateManyWithoutCreatedByNestedInput = {
+  create?: Prisma.XOR<Prisma.LessonCreateWithoutCreatedByInput, Prisma.LessonUncheckedCreateWithoutCreatedByInput> | Prisma.LessonCreateWithoutCreatedByInput[] | Prisma.LessonUncheckedCreateWithoutCreatedByInput[]
+  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutCreatedByInput | Prisma.LessonCreateOrConnectWithoutCreatedByInput[]
+  upsert?: Prisma.LessonUpsertWithWhereUniqueWithoutCreatedByInput | Prisma.LessonUpsertWithWhereUniqueWithoutCreatedByInput[]
+  createMany?: Prisma.LessonCreateManyCreatedByInputEnvelope
   set?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
   disconnect?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
   delete?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
   connect?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
-  update?: Prisma.LessonUpdateWithWhereUniqueWithoutCompanionInput | Prisma.LessonUpdateWithWhereUniqueWithoutCompanionInput[]
-  updateMany?: Prisma.LessonUpdateManyWithWhereWithoutCompanionInput | Prisma.LessonUpdateManyWithWhereWithoutCompanionInput[]
+  update?: Prisma.LessonUpdateWithWhereUniqueWithoutCreatedByInput | Prisma.LessonUpdateWithWhereUniqueWithoutCreatedByInput[]
+  updateMany?: Prisma.LessonUpdateManyWithWhereWithoutCreatedByInput | Prisma.LessonUpdateManyWithWhereWithoutCreatedByInput[]
   deleteMany?: Prisma.LessonScalarWhereInput | Prisma.LessonScalarWhereInput[]
 }
 
-export type LessonUncheckedUpdateManyWithoutCompanionNestedInput = {
-  create?: Prisma.XOR<Prisma.LessonCreateWithoutCompanionInput, Prisma.LessonUncheckedCreateWithoutCompanionInput> | Prisma.LessonCreateWithoutCompanionInput[] | Prisma.LessonUncheckedCreateWithoutCompanionInput[]
-  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutCompanionInput | Prisma.LessonCreateOrConnectWithoutCompanionInput[]
-  upsert?: Prisma.LessonUpsertWithWhereUniqueWithoutCompanionInput | Prisma.LessonUpsertWithWhereUniqueWithoutCompanionInput[]
-  createMany?: Prisma.LessonCreateManyCompanionInputEnvelope
+export type LessonUncheckedUpdateManyWithoutCreatedByNestedInput = {
+  create?: Prisma.XOR<Prisma.LessonCreateWithoutCreatedByInput, Prisma.LessonUncheckedCreateWithoutCreatedByInput> | Prisma.LessonCreateWithoutCreatedByInput[] | Prisma.LessonUncheckedCreateWithoutCreatedByInput[]
+  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutCreatedByInput | Prisma.LessonCreateOrConnectWithoutCreatedByInput[]
+  upsert?: Prisma.LessonUpsertWithWhereUniqueWithoutCreatedByInput | Prisma.LessonUpsertWithWhereUniqueWithoutCreatedByInput[]
+  createMany?: Prisma.LessonCreateManyCreatedByInputEnvelope
   set?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
   disconnect?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
   delete?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
   connect?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
-  update?: Prisma.LessonUpdateWithWhereUniqueWithoutCompanionInput | Prisma.LessonUpdateWithWhereUniqueWithoutCompanionInput[]
-  updateMany?: Prisma.LessonUpdateManyWithWhereWithoutCompanionInput | Prisma.LessonUpdateManyWithWhereWithoutCompanionInput[]
+  update?: Prisma.LessonUpdateWithWhereUniqueWithoutCreatedByInput | Prisma.LessonUpdateWithWhereUniqueWithoutCreatedByInput[]
+  updateMany?: Prisma.LessonUpdateManyWithWhereWithoutCreatedByInput | Prisma.LessonUpdateManyWithWhereWithoutCreatedByInput[]
+  deleteMany?: Prisma.LessonScalarWhereInput | Prisma.LessonScalarWhereInput[]
+}
+
+export type LessonCreateNestedManyWithoutDefaultCompanionInput = {
+  create?: Prisma.XOR<Prisma.LessonCreateWithoutDefaultCompanionInput, Prisma.LessonUncheckedCreateWithoutDefaultCompanionInput> | Prisma.LessonCreateWithoutDefaultCompanionInput[] | Prisma.LessonUncheckedCreateWithoutDefaultCompanionInput[]
+  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutDefaultCompanionInput | Prisma.LessonCreateOrConnectWithoutDefaultCompanionInput[]
+  createMany?: Prisma.LessonCreateManyDefaultCompanionInputEnvelope
+  connect?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
+}
+
+export type LessonUncheckedCreateNestedManyWithoutDefaultCompanionInput = {
+  create?: Prisma.XOR<Prisma.LessonCreateWithoutDefaultCompanionInput, Prisma.LessonUncheckedCreateWithoutDefaultCompanionInput> | Prisma.LessonCreateWithoutDefaultCompanionInput[] | Prisma.LessonUncheckedCreateWithoutDefaultCompanionInput[]
+  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutDefaultCompanionInput | Prisma.LessonCreateOrConnectWithoutDefaultCompanionInput[]
+  createMany?: Prisma.LessonCreateManyDefaultCompanionInputEnvelope
+  connect?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
+}
+
+export type LessonUpdateManyWithoutDefaultCompanionNestedInput = {
+  create?: Prisma.XOR<Prisma.LessonCreateWithoutDefaultCompanionInput, Prisma.LessonUncheckedCreateWithoutDefaultCompanionInput> | Prisma.LessonCreateWithoutDefaultCompanionInput[] | Prisma.LessonUncheckedCreateWithoutDefaultCompanionInput[]
+  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutDefaultCompanionInput | Prisma.LessonCreateOrConnectWithoutDefaultCompanionInput[]
+  upsert?: Prisma.LessonUpsertWithWhereUniqueWithoutDefaultCompanionInput | Prisma.LessonUpsertWithWhereUniqueWithoutDefaultCompanionInput[]
+  createMany?: Prisma.LessonCreateManyDefaultCompanionInputEnvelope
+  set?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
+  disconnect?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
+  delete?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
+  connect?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
+  update?: Prisma.LessonUpdateWithWhereUniqueWithoutDefaultCompanionInput | Prisma.LessonUpdateWithWhereUniqueWithoutDefaultCompanionInput[]
+  updateMany?: Prisma.LessonUpdateManyWithWhereWithoutDefaultCompanionInput | Prisma.LessonUpdateManyWithWhereWithoutDefaultCompanionInput[]
+  deleteMany?: Prisma.LessonScalarWhereInput | Prisma.LessonScalarWhereInput[]
+}
+
+export type LessonUncheckedUpdateManyWithoutDefaultCompanionNestedInput = {
+  create?: Prisma.XOR<Prisma.LessonCreateWithoutDefaultCompanionInput, Prisma.LessonUncheckedCreateWithoutDefaultCompanionInput> | Prisma.LessonCreateWithoutDefaultCompanionInput[] | Prisma.LessonUncheckedCreateWithoutDefaultCompanionInput[]
+  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutDefaultCompanionInput | Prisma.LessonCreateOrConnectWithoutDefaultCompanionInput[]
+  upsert?: Prisma.LessonUpsertWithWhereUniqueWithoutDefaultCompanionInput | Prisma.LessonUpsertWithWhereUniqueWithoutDefaultCompanionInput[]
+  createMany?: Prisma.LessonCreateManyDefaultCompanionInputEnvelope
+  set?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
+  disconnect?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
+  delete?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
+  connect?: Prisma.LessonWhereUniqueInput | Prisma.LessonWhereUniqueInput[]
+  update?: Prisma.LessonUpdateWithWhereUniqueWithoutDefaultCompanionInput | Prisma.LessonUpdateWithWhereUniqueWithoutDefaultCompanionInput[]
+  updateMany?: Prisma.LessonUpdateManyWithWhereWithoutDefaultCompanionInput | Prisma.LessonUpdateManyWithWhereWithoutDefaultCompanionInput[]
   deleteMany?: Prisma.LessonScalarWhereInput | Prisma.LessonScalarWhereInput[]
 }
 
 export type EnumSubjectFieldUpdateOperationsInput = {
   set?: $Enums.Subject
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type LessonCreateNestedOneWithoutBookmarksInput = {
@@ -507,51 +603,55 @@ export type LessonUpdateOneRequiredWithoutLessonSessionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.LessonUpdateToOneWithWhereWithoutLessonSessionsInput, Prisma.LessonUpdateWithoutLessonSessionsInput>, Prisma.LessonUncheckedUpdateWithoutLessonSessionsInput>
 }
 
-export type LessonCreateWithoutCompanionInput = {
+export type LessonCreateWithoutCreatedByInput = {
   name: string
   topic: string
   subject: $Enums.Subject
   targetDurationMinutes: number
+  isPublic?: boolean
   createdAt?: Date | string
+  defaultCompanion?: Prisma.CompanionCreateNestedOneWithoutDefaultLessonsInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutLessonInput
   lessonSessions?: Prisma.LessonSessionCreateNestedManyWithoutLessonInput
 }
 
-export type LessonUncheckedCreateWithoutCompanionInput = {
+export type LessonUncheckedCreateWithoutCreatedByInput = {
   id?: number
   name: string
   topic: string
   subject: $Enums.Subject
   targetDurationMinutes: number
+  isPublic?: boolean
   createdAt?: Date | string
+  defaultCompanionId?: number | null
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutLessonInput
   lessonSessions?: Prisma.LessonSessionUncheckedCreateNestedManyWithoutLessonInput
 }
 
-export type LessonCreateOrConnectWithoutCompanionInput = {
+export type LessonCreateOrConnectWithoutCreatedByInput = {
   where: Prisma.LessonWhereUniqueInput
-  create: Prisma.XOR<Prisma.LessonCreateWithoutCompanionInput, Prisma.LessonUncheckedCreateWithoutCompanionInput>
+  create: Prisma.XOR<Prisma.LessonCreateWithoutCreatedByInput, Prisma.LessonUncheckedCreateWithoutCreatedByInput>
 }
 
-export type LessonCreateManyCompanionInputEnvelope = {
-  data: Prisma.LessonCreateManyCompanionInput | Prisma.LessonCreateManyCompanionInput[]
+export type LessonCreateManyCreatedByInputEnvelope = {
+  data: Prisma.LessonCreateManyCreatedByInput | Prisma.LessonCreateManyCreatedByInput[]
   skipDuplicates?: boolean
 }
 
-export type LessonUpsertWithWhereUniqueWithoutCompanionInput = {
+export type LessonUpsertWithWhereUniqueWithoutCreatedByInput = {
   where: Prisma.LessonWhereUniqueInput
-  update: Prisma.XOR<Prisma.LessonUpdateWithoutCompanionInput, Prisma.LessonUncheckedUpdateWithoutCompanionInput>
-  create: Prisma.XOR<Prisma.LessonCreateWithoutCompanionInput, Prisma.LessonUncheckedCreateWithoutCompanionInput>
+  update: Prisma.XOR<Prisma.LessonUpdateWithoutCreatedByInput, Prisma.LessonUncheckedUpdateWithoutCreatedByInput>
+  create: Prisma.XOR<Prisma.LessonCreateWithoutCreatedByInput, Prisma.LessonUncheckedCreateWithoutCreatedByInput>
 }
 
-export type LessonUpdateWithWhereUniqueWithoutCompanionInput = {
+export type LessonUpdateWithWhereUniqueWithoutCreatedByInput = {
   where: Prisma.LessonWhereUniqueInput
-  data: Prisma.XOR<Prisma.LessonUpdateWithoutCompanionInput, Prisma.LessonUncheckedUpdateWithoutCompanionInput>
+  data: Prisma.XOR<Prisma.LessonUpdateWithoutCreatedByInput, Prisma.LessonUncheckedUpdateWithoutCreatedByInput>
 }
 
-export type LessonUpdateManyWithWhereWithoutCompanionInput = {
+export type LessonUpdateManyWithWhereWithoutCreatedByInput = {
   where: Prisma.LessonScalarWhereInput
-  data: Prisma.XOR<Prisma.LessonUpdateManyMutationInput, Prisma.LessonUncheckedUpdateManyWithoutCompanionInput>
+  data: Prisma.XOR<Prisma.LessonUpdateManyMutationInput, Prisma.LessonUncheckedUpdateManyWithoutCreatedByInput>
 }
 
 export type LessonScalarWhereInput = {
@@ -563,8 +663,61 @@ export type LessonScalarWhereInput = {
   topic?: Prisma.StringFilter<"Lesson"> | string
   subject?: Prisma.EnumSubjectFilter<"Lesson"> | $Enums.Subject
   targetDurationMinutes?: Prisma.IntFilter<"Lesson"> | number
+  isPublic?: Prisma.BoolFilter<"Lesson"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
-  companionId?: Prisma.IntFilter<"Lesson"> | number
+  createdById?: Prisma.StringFilter<"Lesson"> | string
+  defaultCompanionId?: Prisma.IntNullableFilter<"Lesson"> | number | null
+}
+
+export type LessonCreateWithoutDefaultCompanionInput = {
+  name: string
+  topic: string
+  subject: $Enums.Subject
+  targetDurationMinutes: number
+  isPublic?: boolean
+  createdAt?: Date | string
+  createdBy: Prisma.UserCreateNestedOneWithoutLessonsInput
+  bookmarks?: Prisma.BookmarkCreateNestedManyWithoutLessonInput
+  lessonSessions?: Prisma.LessonSessionCreateNestedManyWithoutLessonInput
+}
+
+export type LessonUncheckedCreateWithoutDefaultCompanionInput = {
+  id?: number
+  name: string
+  topic: string
+  subject: $Enums.Subject
+  targetDurationMinutes: number
+  isPublic?: boolean
+  createdAt?: Date | string
+  createdById: string
+  bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutLessonInput
+  lessonSessions?: Prisma.LessonSessionUncheckedCreateNestedManyWithoutLessonInput
+}
+
+export type LessonCreateOrConnectWithoutDefaultCompanionInput = {
+  where: Prisma.LessonWhereUniqueInput
+  create: Prisma.XOR<Prisma.LessonCreateWithoutDefaultCompanionInput, Prisma.LessonUncheckedCreateWithoutDefaultCompanionInput>
+}
+
+export type LessonCreateManyDefaultCompanionInputEnvelope = {
+  data: Prisma.LessonCreateManyDefaultCompanionInput | Prisma.LessonCreateManyDefaultCompanionInput[]
+  skipDuplicates?: boolean
+}
+
+export type LessonUpsertWithWhereUniqueWithoutDefaultCompanionInput = {
+  where: Prisma.LessonWhereUniqueInput
+  update: Prisma.XOR<Prisma.LessonUpdateWithoutDefaultCompanionInput, Prisma.LessonUncheckedUpdateWithoutDefaultCompanionInput>
+  create: Prisma.XOR<Prisma.LessonCreateWithoutDefaultCompanionInput, Prisma.LessonUncheckedCreateWithoutDefaultCompanionInput>
+}
+
+export type LessonUpdateWithWhereUniqueWithoutDefaultCompanionInput = {
+  where: Prisma.LessonWhereUniqueInput
+  data: Prisma.XOR<Prisma.LessonUpdateWithoutDefaultCompanionInput, Prisma.LessonUncheckedUpdateWithoutDefaultCompanionInput>
+}
+
+export type LessonUpdateManyWithWhereWithoutDefaultCompanionInput = {
+  where: Prisma.LessonScalarWhereInput
+  data: Prisma.XOR<Prisma.LessonUpdateManyMutationInput, Prisma.LessonUncheckedUpdateManyWithoutDefaultCompanionInput>
 }
 
 export type LessonCreateWithoutBookmarksInput = {
@@ -572,8 +725,10 @@ export type LessonCreateWithoutBookmarksInput = {
   topic: string
   subject: $Enums.Subject
   targetDurationMinutes: number
+  isPublic?: boolean
   createdAt?: Date | string
-  companion: Prisma.CompanionCreateNestedOneWithoutLessonsInput
+  createdBy: Prisma.UserCreateNestedOneWithoutLessonsInput
+  defaultCompanion?: Prisma.CompanionCreateNestedOneWithoutDefaultLessonsInput
   lessonSessions?: Prisma.LessonSessionCreateNestedManyWithoutLessonInput
 }
 
@@ -583,8 +738,10 @@ export type LessonUncheckedCreateWithoutBookmarksInput = {
   topic: string
   subject: $Enums.Subject
   targetDurationMinutes: number
+  isPublic?: boolean
   createdAt?: Date | string
-  companionId: number
+  createdById: string
+  defaultCompanionId?: number | null
   lessonSessions?: Prisma.LessonSessionUncheckedCreateNestedManyWithoutLessonInput
 }
 
@@ -609,8 +766,10 @@ export type LessonUpdateWithoutBookmarksInput = {
   topic?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   targetDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  companion?: Prisma.CompanionUpdateOneRequiredWithoutLessonsNestedInput
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutLessonsNestedInput
+  defaultCompanion?: Prisma.CompanionUpdateOneWithoutDefaultLessonsNestedInput
   lessonSessions?: Prisma.LessonSessionUpdateManyWithoutLessonNestedInput
 }
 
@@ -620,8 +779,10 @@ export type LessonUncheckedUpdateWithoutBookmarksInput = {
   topic?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   targetDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  companionId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  defaultCompanionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   lessonSessions?: Prisma.LessonSessionUncheckedUpdateManyWithoutLessonNestedInput
 }
 
@@ -630,8 +791,10 @@ export type LessonCreateWithoutLessonSessionsInput = {
   topic: string
   subject: $Enums.Subject
   targetDurationMinutes: number
+  isPublic?: boolean
   createdAt?: Date | string
-  companion: Prisma.CompanionCreateNestedOneWithoutLessonsInput
+  createdBy: Prisma.UserCreateNestedOneWithoutLessonsInput
+  defaultCompanion?: Prisma.CompanionCreateNestedOneWithoutDefaultLessonsInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutLessonInput
 }
 
@@ -641,8 +804,10 @@ export type LessonUncheckedCreateWithoutLessonSessionsInput = {
   topic: string
   subject: $Enums.Subject
   targetDurationMinutes: number
+  isPublic?: boolean
   createdAt?: Date | string
-  companionId: number
+  createdById: string
+  defaultCompanionId?: number | null
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutLessonInput
 }
 
@@ -667,8 +832,10 @@ export type LessonUpdateWithoutLessonSessionsInput = {
   topic?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   targetDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  companion?: Prisma.CompanionUpdateOneRequiredWithoutLessonsNestedInput
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutLessonsNestedInput
+  defaultCompanion?: Prisma.CompanionUpdateOneWithoutDefaultLessonsNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutLessonNestedInput
 }
 
@@ -678,48 +845,105 @@ export type LessonUncheckedUpdateWithoutLessonSessionsInput = {
   topic?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   targetDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  companionId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  defaultCompanionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutLessonNestedInput
 }
 
-export type LessonCreateManyCompanionInput = {
+export type LessonCreateManyCreatedByInput = {
   id?: number
   name: string
   topic: string
   subject: $Enums.Subject
   targetDurationMinutes: number
+  isPublic?: boolean
   createdAt?: Date | string
+  defaultCompanionId?: number | null
 }
 
-export type LessonUpdateWithoutCompanionInput = {
+export type LessonUpdateWithoutCreatedByInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   topic?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   targetDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  defaultCompanion?: Prisma.CompanionUpdateOneWithoutDefaultLessonsNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutLessonNestedInput
   lessonSessions?: Prisma.LessonSessionUpdateManyWithoutLessonNestedInput
 }
 
-export type LessonUncheckedUpdateWithoutCompanionInput = {
+export type LessonUncheckedUpdateWithoutCreatedByInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   topic?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   targetDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  defaultCompanionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutLessonNestedInput
   lessonSessions?: Prisma.LessonSessionUncheckedUpdateManyWithoutLessonNestedInput
 }
 
-export type LessonUncheckedUpdateManyWithoutCompanionInput = {
+export type LessonUncheckedUpdateManyWithoutCreatedByInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   topic?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   targetDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  defaultCompanionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type LessonCreateManyDefaultCompanionInput = {
+  id?: number
+  name: string
+  topic: string
+  subject: $Enums.Subject
+  targetDurationMinutes: number
+  isPublic?: boolean
+  createdAt?: Date | string
+  createdById: string
+}
+
+export type LessonUpdateWithoutDefaultCompanionInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
+  targetDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutLessonsNestedInput
+  bookmarks?: Prisma.BookmarkUpdateManyWithoutLessonNestedInput
+  lessonSessions?: Prisma.LessonSessionUpdateManyWithoutLessonNestedInput
+}
+
+export type LessonUncheckedUpdateWithoutDefaultCompanionInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
+  targetDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutLessonNestedInput
+  lessonSessions?: Prisma.LessonSessionUncheckedUpdateManyWithoutLessonNestedInput
+}
+
+export type LessonUncheckedUpdateManyWithoutDefaultCompanionInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
+  targetDurationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -768,9 +992,12 @@ export type LessonSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   topic?: boolean
   subject?: boolean
   targetDurationMinutes?: boolean
+  isPublic?: boolean
   createdAt?: boolean
-  companionId?: boolean
-  companion?: boolean | Prisma.CompanionDefaultArgs<ExtArgs>
+  createdById?: boolean
+  defaultCompanionId?: boolean
+  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  defaultCompanion?: boolean | Prisma.Lesson$defaultCompanionArgs<ExtArgs>
   bookmarks?: boolean | Prisma.Lesson$bookmarksArgs<ExtArgs>
   lessonSessions?: boolean | Prisma.Lesson$lessonSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.LessonCountOutputTypeDefaultArgs<ExtArgs>
@@ -782,9 +1009,12 @@ export type LessonSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   topic?: boolean
   subject?: boolean
   targetDurationMinutes?: boolean
+  isPublic?: boolean
   createdAt?: boolean
-  companionId?: boolean
-  companion?: boolean | Prisma.CompanionDefaultArgs<ExtArgs>
+  createdById?: boolean
+  defaultCompanionId?: boolean
+  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  defaultCompanion?: boolean | Prisma.Lesson$defaultCompanionArgs<ExtArgs>
 }, ExtArgs["result"]["lesson"]>
 
 export type LessonSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -793,9 +1023,12 @@ export type LessonSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   topic?: boolean
   subject?: boolean
   targetDurationMinutes?: boolean
+  isPublic?: boolean
   createdAt?: boolean
-  companionId?: boolean
-  companion?: boolean | Prisma.CompanionDefaultArgs<ExtArgs>
+  createdById?: boolean
+  defaultCompanionId?: boolean
+  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  defaultCompanion?: boolean | Prisma.Lesson$defaultCompanionArgs<ExtArgs>
 }, ExtArgs["result"]["lesson"]>
 
 export type LessonSelectScalar = {
@@ -804,28 +1037,34 @@ export type LessonSelectScalar = {
   topic?: boolean
   subject?: boolean
   targetDurationMinutes?: boolean
+  isPublic?: boolean
   createdAt?: boolean
-  companionId?: boolean
+  createdById?: boolean
+  defaultCompanionId?: boolean
 }
 
-export type LessonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "topic" | "subject" | "targetDurationMinutes" | "createdAt" | "companionId", ExtArgs["result"]["lesson"]>
+export type LessonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "topic" | "subject" | "targetDurationMinutes" | "isPublic" | "createdAt" | "createdById" | "defaultCompanionId", ExtArgs["result"]["lesson"]>
 export type LessonInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  companion?: boolean | Prisma.CompanionDefaultArgs<ExtArgs>
+  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  defaultCompanion?: boolean | Prisma.Lesson$defaultCompanionArgs<ExtArgs>
   bookmarks?: boolean | Prisma.Lesson$bookmarksArgs<ExtArgs>
   lessonSessions?: boolean | Prisma.Lesson$lessonSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.LessonCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type LessonIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  companion?: boolean | Prisma.CompanionDefaultArgs<ExtArgs>
+  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  defaultCompanion?: boolean | Prisma.Lesson$defaultCompanionArgs<ExtArgs>
 }
 export type LessonIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  companion?: boolean | Prisma.CompanionDefaultArgs<ExtArgs>
+  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  defaultCompanion?: boolean | Prisma.Lesson$defaultCompanionArgs<ExtArgs>
 }
 
 export type $LessonPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Lesson"
   objects: {
-    companion: Prisma.$CompanionPayload<ExtArgs>
+    createdBy: Prisma.$UserPayload<ExtArgs>
+    defaultCompanion: Prisma.$CompanionPayload<ExtArgs> | null
     bookmarks: Prisma.$BookmarkPayload<ExtArgs>[]
     lessonSessions: Prisma.$LessonSessionPayload<ExtArgs>[]
   }
@@ -835,8 +1074,10 @@ export type $LessonPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     topic: string
     subject: $Enums.Subject
     targetDurationMinutes: number
+    isPublic: boolean
     createdAt: Date
-    companionId: number
+    createdById: string
+    defaultCompanionId: number | null
   }, ExtArgs["result"]["lesson"]>
   composites: {}
 }
@@ -1231,7 +1472,8 @@ readonly fields: LessonFieldRefs;
  */
 export interface Prisma__LessonClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  companion<T extends Prisma.CompanionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanionDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanionClient<runtime.Types.Result.GetResult<Prisma.$CompanionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  createdBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  defaultCompanion<T extends Prisma.Lesson$defaultCompanionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lesson$defaultCompanionArgs<ExtArgs>>): Prisma.Prisma__CompanionClient<runtime.Types.Result.GetResult<Prisma.$CompanionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   bookmarks<T extends Prisma.Lesson$bookmarksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lesson$bookmarksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookmarkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   lessonSessions<T extends Prisma.Lesson$lessonSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lesson$lessonSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LessonSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1268,8 +1510,10 @@ export interface LessonFieldRefs {
   readonly topic: Prisma.FieldRef<"Lesson", 'String'>
   readonly subject: Prisma.FieldRef<"Lesson", 'Subject'>
   readonly targetDurationMinutes: Prisma.FieldRef<"Lesson", 'Int'>
+  readonly isPublic: Prisma.FieldRef<"Lesson", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Lesson", 'DateTime'>
-  readonly companionId: Prisma.FieldRef<"Lesson", 'Int'>
+  readonly createdById: Prisma.FieldRef<"Lesson", 'String'>
+  readonly defaultCompanionId: Prisma.FieldRef<"Lesson", 'Int'>
 }
     
 
@@ -1668,6 +1912,25 @@ export type LessonDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Lessons to delete.
    */
   limit?: number
+}
+
+/**
+ * Lesson.defaultCompanion
+ */
+export type Lesson$defaultCompanionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Companion
+   */
+  select?: Prisma.CompanionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Companion
+   */
+  omit?: Prisma.CompanionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CompanionInclude<ExtArgs> | null
+  where?: Prisma.CompanionWhereInput
 }
 
 /**

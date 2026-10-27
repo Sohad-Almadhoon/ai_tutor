@@ -2,16 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-
-type ActionError = {
-  success: false;
-  error: string;
-  status: 401 | 404 | 500;
-};
-
-function failure(error: string, status: ActionError["status"]): ActionError {
-  return { success: false, error, status };
-}
+import { failure, success } from "@/actions/action-helpers";
 
 export async function getCurrentUserAction() {
   try {
@@ -20,11 +11,20 @@ export async function getCurrentUserAction() {
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      include: { companions: { include: { lessons: true } } },
+      include: {
+        companions: {
+          include: {
+            defaultLessons: {
+              where: { OR: [{ createdById: userId }, { isPublic: true }] },
+            },
+          },
+        },
+        lessons: true,
+      },
     });
     if (!user) return failure("User not found", 404);
 
-    return { success: true as const, status: 200 as const, data: user };
+    return success(user);
   } catch (error) {
     console.error("Failed to fetch current user:", error);
     return failure("Failed to fetch user", 500);
@@ -42,13 +42,23 @@ export async function getUserByIdAction(id: string) {
       include: {
         companions: {
           where: id === userId ? {} : { isPublic: true },
-          include: { lessons: true },
+          include: {
+            defaultLessons: {
+              where:
+                id === userId
+                  ? { OR: [{ createdById: id }, { isPublic: true }] }
+                  : { isPublic: true },
+            },
+          },
+        },
+        lessons: {
+          where: id === userId ? {} : { isPublic: true },
         },
       },
     });
     if (!user) return failure("User not found", 404);
 
-    return { success: true as const, status: 200 as const, data: user };
+    return success(user);
   } catch (error) {
     console.error("Failed to fetch user by ID:", error);
     return failure("Failed to fetch user", 500);

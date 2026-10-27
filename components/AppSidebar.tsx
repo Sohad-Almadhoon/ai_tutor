@@ -7,8 +7,9 @@ import {
   SignedIn,
   SignedOut,
   SignInButton,
-  SignUpButton,
+  SignOutButton,
   UserButton,
+  useUser,
 } from "@clerk/nextjs";
 import {
   Activity,
@@ -17,13 +18,14 @@ import {
   Bookmark,
   ChartNoAxesColumnIncreasing,
   CirclePlus,
-  GraduationCap,
   House,
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
   PlusSquare,
+  LogOut,
   Settings,
+  Sparkles,
   UsersRound,
   X,
   type LucideIcon,
@@ -37,31 +39,25 @@ type SidebarLink = {
 };
 
 const mainLinks: SidebarLink[] = [
-  { label: "Home", href: "/", icon: House, available: true },
-  { label: "Lessons", href: "/lessons", icon: BookOpen, available: false },
-  {
-    label: "Learning Companions",
-    href: "/companions",
-    icon: UsersRound,
-    available: true,
-  },
+  { label: "Home", href: "/companions", icon: House, available: true },
+  { label: "Lessons", href: "/lessons", icon: BookOpen, available: true },
   {
     label: "Saved Lessons",
     href: "/bookmarks",
     icon: Bookmark,
-    available: false,
+    available: true,
   },
   {
     label: "My Learning Sessions",
     href: "/learning-sessions",
     icon: Activity,
-    available: false,
+    available: true,
   },
   {
     label: "My Journey",
     href: "/my-journey",
     icon: ChartNoAxesColumnIncreasing,
-    available: false,
+    available: true,
   },
 ];
 
@@ -76,7 +72,7 @@ const creationLinks: SidebarLink[] = [
     label: "Create Lesson",
     href: "/lessons/new",
     icon: PlusSquare,
-    available: false,
+    available: true,
   },
 ];
 
@@ -113,7 +109,7 @@ function SidebarLinks({
             collapsed ? "justify-center" : ""
           }`}
         >
-          <Icon className="size-[18px] shrink-0" aria-hidden="true" />
+          <Icon className="size-4.5 shrink-0" aria-hidden="true" />
           {!collapsed && (
             <>
               <span className="flex-1">{label}</span>
@@ -142,7 +138,7 @@ function SidebarLinks({
         }`}
       >
         <Icon
-          className={`size-[18px] shrink-0 ${
+          className={`size-4.5 shrink-0 ${
             isActive ? "text-violet-600" : "text-slate-500"
           }`}
           aria-hidden="true"
@@ -154,42 +150,55 @@ function SidebarLinks({
 
   return (
     <>
+      {!collapsed && (
+        <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
+          Workspace
+        </p>
+      )}
       <nav aria-label="Main navigation" className="space-y-1">
         {mainLinks.map(renderLink)}
       </nav>
 
-      <div className="my-5 border-t border-slate-200" />
+      <div className="my-5 border-t border-slate-100" />
 
+      {!collapsed && (
+        <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
+          Create
+        </p>
+      )}
       <nav aria-label="Create" className="space-y-1">
         {creationLinks.map(renderLink)}
       </nav>
 
-      <div className="my-5 border-t border-slate-200" />
+      <div className="my-5 border-t border-slate-100" />
 
-      <div
-        aria-disabled="true"
-        title={collapsed ? "Settings — coming soon" : "Coming soon"}
-        className={`flex min-h-11 cursor-not-allowed items-center gap-3 rounded-xl px-3 text-sm text-slate-400 ${
+      {!collapsed && (
+        <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
+          Account
+        </p>
+      )}
+      <Link
+        href="/settings"
+        onClick={onNavigate}
+        title={collapsed ? "Settings" : undefined}
+        aria-current={pathname === "/settings" ? "page" : undefined}
+        className={`relative flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-medium transition-all ${
           collapsed ? "justify-center" : ""
+        } ${
+          pathname === "/settings"
+            ? "bg-violet-50 text-violet-800 ring-1 ring-violet-100"
+            : "text-slate-600 hover:bg-slate-50 hover:text-slate-950"
         }`}
       >
-        <Settings className="size-[18px] shrink-0" aria-hidden="true" />
-        {!collapsed && (
-          <>
-            <span className="flex-1">Settings</span>
-            <span className="text-[10px] font-medium uppercase tracking-wide text-slate-400">
-              Soon
-            </span>
-          </>
-        )}
-      </div>
-
+        <Settings className="size-4.5 shrink-0" aria-hidden="true" />
+        {!collapsed && <span>Settings</span>}
+      </Link>
       <Link
         href="/subscription"
         onClick={onNavigate}
         title={collapsed ? "Pricing & Plan" : undefined}
         aria-current={pathname === "/subscription" ? "page" : undefined}
-        className={`flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-medium transition-colors ${
+        className={`mt-1 flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-medium transition-colors ${
           collapsed ? "justify-center" : ""
         } ${
           pathname === "/subscription"
@@ -197,7 +206,7 @@ function SidebarLinks({
             : "text-slate-600 hover:bg-slate-100 hover:text-slate-950"
         }`}
       >
-        <BadgeDollarSign className="size-[18px] shrink-0" aria-hidden="true" />
+        <BadgeDollarSign className="size-4.5 shrink-0" aria-hidden="true" />
         {!collapsed && <span>Pricing &amp; Plan</span>}
       </Link>
     </>
@@ -208,6 +217,12 @@ export default function AppSidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const { user } = useUser();
+  const userName =
+    user?.fullName ??
+    user?.username ??
+    user?.primaryEmailAddress?.emailAddress.split("@")[0] ??
+    "Learner";
 
   useEffect(() => {
     if (!isOpen) return;
@@ -227,32 +242,40 @@ export default function AppSidebar() {
   return (
     <>
       <aside
-        className={`sticky top-0 hidden h-screen shrink-0 flex-col border-r border-slate-200 bg-white px-3 py-5 transition-[width] duration-200 md:flex ${
-          isCollapsed ? "w-[4.5rem]" : "w-64"
+        className={`sticky top-0 hidden h-screen shrink-0 flex-col border-r border-violet-100/80 bg-white/95 px-3 py-5 shadow-[8px_0_32px_-28px_rgba(70,50,130,0.28)] backdrop-blur transition-[width] duration-200 md:flex ${
+          isCollapsed ? "w-[5.25rem]" : "w-64"
         }`}
       >
         <div
-          className={`mb-7 flex items-center ${
+          className={`mb-8 flex items-center ${
             isCollapsed ? "flex-col gap-4" : "justify-between px-2"
           }`}
         >
           {isCollapsed ? (
-            <Link href="/" title="Converso" aria-label="Converso home">
-              <GraduationCap
-                className="size-6 text-violet-600"
-                aria-hidden="true"
-              />
+            <Link
+              href="/companions"
+              title="Learnova"
+              aria-label="Learnova home"
+              className="flex size-10 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-500 text-white shadow-md shadow-violet-200"
+            >
+              <Sparkles className="size-5" aria-hidden="true" />
             </Link>
           ) : (
             <Link
-              href="/"
-              className="flex items-center gap-2 text-lg font-bold text-slate-900"
+              href="/companions"
+              className="group flex min-w-0 items-center gap-3"
             >
-              <GraduationCap
-                className="size-6 shrink-0 text-violet-600"
-                aria-hidden="true"
-              />
-              <span>Converso</span>
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-500 text-white shadow-md shadow-violet-200 transition group-hover:-rotate-6">
+                <Sparkles className="size-5" aria-hidden="true" />
+              </span>
+              <span className="min-w-0">
+                <span className="block truncate text-base font-bold tracking-tight text-slate-950">
+                  Learnova
+                </span>
+                <span className="block text-[10px] font-semibold uppercase tracking-[0.15em] text-violet-500">
+                  Learn out loud
+                </span>
+              </span>
             </Link>
           )}
           <button
@@ -260,7 +283,7 @@ export default function AppSidebar() {
             aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
             aria-expanded={!isCollapsed}
             onClick={() => setIsCollapsed((collapsed) => !collapsed)}
-            className="flex size-9 shrink-0 items-center justify-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-900"
+            className="flex size-9 shrink-0 items-center justify-center rounded-xl text-slate-400 transition hover:bg-violet-50 hover:text-violet-700"
           >
             {isCollapsed ? (
               <PanelLeftOpen className="size-5" aria-hidden="true" />
@@ -274,19 +297,8 @@ export default function AppSidebar() {
           <SidebarLinks collapsed={isCollapsed} />
         </div>
 
-        {!isCollapsed && (
-          <div className="mt-5 rounded-2xl bg-violet-50 p-4">
-            <p className="text-sm font-semibold text-slate-800">
-              Learning together is better.
-            </p>
-            <p className="mt-1 text-xs leading-5 text-slate-500">
-              Create a companion and share your knowledge.
-            </p>
-          </div>
-        )}
-
         <div
-          className={`mt-4 border-t border-slate-200 pt-4 ${
+          className={`mt-4 border-t border-slate-100 pt-4 ${
             isCollapsed ? "flex justify-center" : ""
           }`}
         >
@@ -299,32 +311,52 @@ export default function AppSidebar() {
                   aria-label="Sign in"
                   className="flex size-10 items-center justify-center rounded-xl text-slate-600 hover:bg-slate-100"
                 >
-                  <UsersRound className="size-[18px]" aria-hidden="true" />
+                  <UsersRound className="size-4.5" aria-hidden="true" />
                 </button>
               </SignInButton>
             ) : (
-              <div className="flex items-center justify-between px-2">
-                <SignInButton />
-                <SignUpButton>
-                  <button className="h-10 cursor-pointer rounded-full bg-[#6c47ff] px-4 text-sm font-medium text-white">
-                    Sign Up
-                  </button>
-                </SignUpButton>
-              </div>
+              <SignInButton>
+                <button
+                  type="button"
+                  className="h-10 w-full cursor-pointer rounded-xl bg-violet-600 px-4 text-sm font-semibold text-white transition hover:bg-violet-700"
+                >
+                  Sign in
+                </button>
+              </SignInButton>
             )}
           </SignedOut>
           <SignedIn>
             <div
-              className={`flex items-center gap-3 ${
-                isCollapsed ? "justify-center" : "px-2"
+              className={`flex min-w-0 items-center ${
+                isCollapsed ? "flex-col gap-3" : "gap-2 px-1"
               }`}
             >
-              <UserButton />
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "size-9",
+                    userButtonTrigger: "rounded-xl focus-visible:ring-4 focus-visible:ring-violet-200",
+                  },
+                }}
+              />
               {!isCollapsed && (
-                <span className="text-sm font-medium text-slate-700">
-                  Account
+                <span
+                  className="min-w-0 flex-1 truncate text-sm font-semibold text-slate-700"
+                  title={userName}
+                >
+                  {userName}
                 </span>
               )}
+              <SignOutButton signOutOptions={{ redirectUrl: "/sign-in" }}>
+                <button
+                  type="button"
+                  title="Sign out"
+                  aria-label="Sign out"
+                  className="flex size-9 shrink-0 items-center justify-center rounded-xl text-slate-400 transition hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-red-100"
+                >
+                  <LogOut className="size-4" aria-hidden="true" />
+                </button>
+              </SignOutButton>
             </div>
           </SignedIn>
         </div>
@@ -357,13 +389,15 @@ export default function AppSidebar() {
             className="relative flex h-full w-[min(20rem,85vw)] flex-col overflow-y-auto bg-white px-4 py-6 shadow-2xl"
           >
             <div className="mb-7 flex items-center justify-between px-3">
-              <Link
-                href="/"
+                <Link
+                  href="/companions"
                 onClick={() => setIsOpen(false)}
                 className="flex items-center gap-2 text-lg font-bold text-slate-900"
               >
-                <GraduationCap className="size-6 text-violet-600" aria-hidden="true" />
-                <span>Converso</span>
+                  <span className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-500 text-white">
+                    <Sparkles className="size-4.5" aria-hidden="true" />
+                  </span>
+                  <span>Learnova</span>
               </Link>
               <button
                 type="button"
@@ -376,30 +410,38 @@ export default function AppSidebar() {
             </div>
             <SidebarLinks onNavigate={() => setIsOpen(false)} />
             <div className="mt-auto space-y-4 pt-6">
-              <div className="rounded-2xl bg-violet-50 p-4">
-                <p className="text-sm font-semibold text-slate-800">
-                  Learning together is better.
-                </p>
-                <p className="mt-1 text-xs leading-5 text-slate-500">
-                  Create a companion and share your knowledge.
-                </p>
-              </div>
               <SignedOut>
-                <div className="flex items-center justify-between px-3">
-                  <SignInButton />
-                  <SignUpButton>
-                    <button className="h-10 cursor-pointer rounded-full bg-[#6c47ff] px-4 text-sm font-medium text-white">
-                      Sign Up
-                    </button>
-                  </SignUpButton>
-                </div>
+                <SignInButton>
+                  <button
+                    type="button"
+                    className="h-11 w-full cursor-pointer rounded-xl bg-violet-600 px-4 text-sm font-semibold text-white transition hover:bg-violet-700"
+                  >
+                    Sign in
+                  </button>
+                </SignInButton>
               </SignedOut>
               <SignedIn>
-                <div className="flex items-center gap-3 px-3">
-                  <UserButton />
-                  <span className="text-sm font-medium text-slate-700">
-                    Account
+                <div className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-3">
+                  <UserButton
+                    appearance={{
+                      elements: {
+                        avatarBox: "size-10",
+                        userButtonTrigger: "rounded-xl focus-visible:ring-4 focus-visible:ring-violet-200",
+                      },
+                    }}
+                  />
+                  <span className="min-w-0 flex-1 truncate text-sm font-semibold text-slate-800">
+                    {userName}
                   </span>
+                  <SignOutButton signOutOptions={{ redirectUrl: "/sign-in" }}>
+                    <button
+                      type="button"
+                      aria-label="Sign out"
+                      className="flex size-10 shrink-0 items-center justify-center rounded-xl text-slate-500 transition hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-red-100"
+                    >
+                      <LogOut className="size-4" aria-hidden="true" />
+                    </button>
+                  </SignOutButton>
                 </div>
               </SignedIn>
             </div>

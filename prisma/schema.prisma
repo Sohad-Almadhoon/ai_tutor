@@ -29,6 +29,7 @@ model User {
   createdAt DateTime @default(now())
 
   companions     Companion[]
+  lessons        Lesson[]
   bookmarks      Bookmark[]
   lessonSessions LessonSession[]
 }
@@ -48,7 +49,7 @@ model Companion {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  lessons        Lesson[]
+  defaultLessons Lesson[] @relation("LessonDefaultCompanion")
   lessonSessions LessonSession[]
 }
 
@@ -58,10 +59,14 @@ model Lesson {
   topic                 String
   subject               Subject
   targetDurationMinutes Int
+  isPublic              Boolean  @default(false)
   createdAt             DateTime @default(now())
 
-  companionId Int
-  companion   Companion @relation(fields: [companionId], references: [id], onDelete: Cascade)
+  createdById String
+  createdBy   User @relation(fields: [createdById], references: [id], onDelete: Cascade)
+
+  defaultCompanionId Int?
+  defaultCompanion   Companion? @relation("LessonDefaultCompanion", fields: [defaultCompanionId], references: [id], onDelete: SetNull)
 
   bookmarks      Bookmark[]
   lessonSessions LessonSession[]

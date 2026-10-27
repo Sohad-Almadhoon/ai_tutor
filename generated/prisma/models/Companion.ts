@@ -265,7 +265,7 @@ export type CompanionWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Companion"> | Date | string
   userId?: Prisma.StringFilter<"Companion"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  lessons?: Prisma.LessonListRelationFilter
+  defaultLessons?: Prisma.LessonListRelationFilter
   lessonSessions?: Prisma.LessonSessionListRelationFilter
 }
 
@@ -282,7 +282,7 @@ export type CompanionOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
-  lessons?: Prisma.LessonOrderByRelationAggregateInput
+  defaultLessons?: Prisma.LessonOrderByRelationAggregateInput
   lessonSessions?: Prisma.LessonSessionOrderByRelationAggregateInput
 }
 
@@ -302,7 +302,7 @@ export type CompanionWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Companion"> | Date | string
   userId?: Prisma.StringFilter<"Companion"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  lessons?: Prisma.LessonListRelationFilter
+  defaultLessons?: Prisma.LessonListRelationFilter
   lessonSessions?: Prisma.LessonSessionListRelationFilter
 }, "id">
 
@@ -353,7 +353,7 @@ export type CompanionCreateInput = {
   isPublic?: boolean
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCompanionsInput
-  lessons?: Prisma.LessonCreateNestedManyWithoutCompanionInput
+  defaultLessons?: Prisma.LessonCreateNestedManyWithoutDefaultCompanionInput
   lessonSessions?: Prisma.LessonSessionCreateNestedManyWithoutCompanionInput
 }
 
@@ -369,7 +369,7 @@ export type CompanionUncheckedCreateInput = {
   isPublic?: boolean
   createdAt?: Date | string
   userId: string
-  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCompanionInput
+  defaultLessons?: Prisma.LessonUncheckedCreateNestedManyWithoutDefaultCompanionInput
   lessonSessions?: Prisma.LessonSessionUncheckedCreateNestedManyWithoutCompanionInput
 }
 
@@ -384,7 +384,7 @@ export type CompanionUpdateInput = {
   isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCompanionsNestedInput
-  lessons?: Prisma.LessonUpdateManyWithoutCompanionNestedInput
+  defaultLessons?: Prisma.LessonUpdateManyWithoutDefaultCompanionNestedInput
   lessonSessions?: Prisma.LessonSessionUpdateManyWithoutCompanionNestedInput
 }
 
@@ -400,7 +400,7 @@ export type CompanionUncheckedUpdateInput = {
   isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCompanionNestedInput
+  defaultLessons?: Prisma.LessonUncheckedUpdateManyWithoutDefaultCompanionNestedInput
   lessonSessions?: Prisma.LessonSessionUncheckedUpdateManyWithoutCompanionNestedInput
 }
 
@@ -504,11 +504,6 @@ export type CompanionSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
 }
 
-export type CompanionScalarRelationFilter = {
-  is?: Prisma.CompanionWhereInput
-  isNot?: Prisma.CompanionWhereInput
-}
-
 export type CompanionNullableScalarRelationFilter = {
   is?: Prisma.CompanionWhereInput | null
   isNot?: Prisma.CompanionWhereInput | null
@@ -568,18 +563,20 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type CompanionCreateNestedOneWithoutLessonsInput = {
-  create?: Prisma.XOR<Prisma.CompanionCreateWithoutLessonsInput, Prisma.CompanionUncheckedCreateWithoutLessonsInput>
-  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutLessonsInput
+export type CompanionCreateNestedOneWithoutDefaultLessonsInput = {
+  create?: Prisma.XOR<Prisma.CompanionCreateWithoutDefaultLessonsInput, Prisma.CompanionUncheckedCreateWithoutDefaultLessonsInput>
+  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutDefaultLessonsInput
   connect?: Prisma.CompanionWhereUniqueInput
 }
 
-export type CompanionUpdateOneRequiredWithoutLessonsNestedInput = {
-  create?: Prisma.XOR<Prisma.CompanionCreateWithoutLessonsInput, Prisma.CompanionUncheckedCreateWithoutLessonsInput>
-  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutLessonsInput
-  upsert?: Prisma.CompanionUpsertWithoutLessonsInput
+export type CompanionUpdateOneWithoutDefaultLessonsNestedInput = {
+  create?: Prisma.XOR<Prisma.CompanionCreateWithoutDefaultLessonsInput, Prisma.CompanionUncheckedCreateWithoutDefaultLessonsInput>
+  connectOrCreate?: Prisma.CompanionCreateOrConnectWithoutDefaultLessonsInput
+  upsert?: Prisma.CompanionUpsertWithoutDefaultLessonsInput
+  disconnect?: Prisma.CompanionWhereInput | boolean
+  delete?: Prisma.CompanionWhereInput | boolean
   connect?: Prisma.CompanionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CompanionUpdateToOneWithWhereWithoutLessonsInput, Prisma.CompanionUpdateWithoutLessonsInput>, Prisma.CompanionUncheckedUpdateWithoutLessonsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CompanionUpdateToOneWithWhereWithoutDefaultLessonsInput, Prisma.CompanionUpdateWithoutDefaultLessonsInput>, Prisma.CompanionUncheckedUpdateWithoutDefaultLessonsInput>
 }
 
 export type CompanionCreateNestedOneWithoutLessonSessionsInput = {
@@ -608,7 +605,7 @@ export type CompanionCreateWithoutUserInput = {
   speakingStyle: string
   isPublic?: boolean
   createdAt?: Date | string
-  lessons?: Prisma.LessonCreateNestedManyWithoutCompanionInput
+  defaultLessons?: Prisma.LessonCreateNestedManyWithoutDefaultCompanionInput
   lessonSessions?: Prisma.LessonSessionCreateNestedManyWithoutCompanionInput
 }
 
@@ -623,7 +620,7 @@ export type CompanionUncheckedCreateWithoutUserInput = {
   speakingStyle: string
   isPublic?: boolean
   createdAt?: Date | string
-  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCompanionInput
+  defaultLessons?: Prisma.LessonUncheckedCreateNestedManyWithoutDefaultCompanionInput
   lessonSessions?: Prisma.LessonSessionUncheckedCreateNestedManyWithoutCompanionInput
 }
 
@@ -670,7 +667,7 @@ export type CompanionScalarWhereInput = {
   userId?: Prisma.StringFilter<"Companion"> | string
 }
 
-export type CompanionCreateWithoutLessonsInput = {
+export type CompanionCreateWithoutDefaultLessonsInput = {
   name: string
   description?: string
   companionIcon: string
@@ -684,7 +681,7 @@ export type CompanionCreateWithoutLessonsInput = {
   lessonSessions?: Prisma.LessonSessionCreateNestedManyWithoutCompanionInput
 }
 
-export type CompanionUncheckedCreateWithoutLessonsInput = {
+export type CompanionUncheckedCreateWithoutDefaultLessonsInput = {
   id?: number
   name: string
   description?: string
@@ -699,23 +696,23 @@ export type CompanionUncheckedCreateWithoutLessonsInput = {
   lessonSessions?: Prisma.LessonSessionUncheckedCreateNestedManyWithoutCompanionInput
 }
 
-export type CompanionCreateOrConnectWithoutLessonsInput = {
+export type CompanionCreateOrConnectWithoutDefaultLessonsInput = {
   where: Prisma.CompanionWhereUniqueInput
-  create: Prisma.XOR<Prisma.CompanionCreateWithoutLessonsInput, Prisma.CompanionUncheckedCreateWithoutLessonsInput>
+  create: Prisma.XOR<Prisma.CompanionCreateWithoutDefaultLessonsInput, Prisma.CompanionUncheckedCreateWithoutDefaultLessonsInput>
 }
 
-export type CompanionUpsertWithoutLessonsInput = {
-  update: Prisma.XOR<Prisma.CompanionUpdateWithoutLessonsInput, Prisma.CompanionUncheckedUpdateWithoutLessonsInput>
-  create: Prisma.XOR<Prisma.CompanionCreateWithoutLessonsInput, Prisma.CompanionUncheckedCreateWithoutLessonsInput>
+export type CompanionUpsertWithoutDefaultLessonsInput = {
+  update: Prisma.XOR<Prisma.CompanionUpdateWithoutDefaultLessonsInput, Prisma.CompanionUncheckedUpdateWithoutDefaultLessonsInput>
+  create: Prisma.XOR<Prisma.CompanionCreateWithoutDefaultLessonsInput, Prisma.CompanionUncheckedCreateWithoutDefaultLessonsInput>
   where?: Prisma.CompanionWhereInput
 }
 
-export type CompanionUpdateToOneWithWhereWithoutLessonsInput = {
+export type CompanionUpdateToOneWithWhereWithoutDefaultLessonsInput = {
   where?: Prisma.CompanionWhereInput
-  data: Prisma.XOR<Prisma.CompanionUpdateWithoutLessonsInput, Prisma.CompanionUncheckedUpdateWithoutLessonsInput>
+  data: Prisma.XOR<Prisma.CompanionUpdateWithoutDefaultLessonsInput, Prisma.CompanionUncheckedUpdateWithoutDefaultLessonsInput>
 }
 
-export type CompanionUpdateWithoutLessonsInput = {
+export type CompanionUpdateWithoutDefaultLessonsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   companionIcon?: Prisma.StringFieldUpdateOperationsInput | string
@@ -729,7 +726,7 @@ export type CompanionUpdateWithoutLessonsInput = {
   lessonSessions?: Prisma.LessonSessionUpdateManyWithoutCompanionNestedInput
 }
 
-export type CompanionUncheckedUpdateWithoutLessonsInput = {
+export type CompanionUncheckedUpdateWithoutDefaultLessonsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -755,7 +752,7 @@ export type CompanionCreateWithoutLessonSessionsInput = {
   isPublic?: boolean
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCompanionsInput
-  lessons?: Prisma.LessonCreateNestedManyWithoutCompanionInput
+  defaultLessons?: Prisma.LessonCreateNestedManyWithoutDefaultCompanionInput
 }
 
 export type CompanionUncheckedCreateWithoutLessonSessionsInput = {
@@ -770,7 +767,7 @@ export type CompanionUncheckedCreateWithoutLessonSessionsInput = {
   isPublic?: boolean
   createdAt?: Date | string
   userId: string
-  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCompanionInput
+  defaultLessons?: Prisma.LessonUncheckedCreateNestedManyWithoutDefaultCompanionInput
 }
 
 export type CompanionCreateOrConnectWithoutLessonSessionsInput = {
@@ -800,7 +797,7 @@ export type CompanionUpdateWithoutLessonSessionsInput = {
   isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCompanionsNestedInput
-  lessons?: Prisma.LessonUpdateManyWithoutCompanionNestedInput
+  defaultLessons?: Prisma.LessonUpdateManyWithoutDefaultCompanionNestedInput
 }
 
 export type CompanionUncheckedUpdateWithoutLessonSessionsInput = {
@@ -815,7 +812,7 @@ export type CompanionUncheckedUpdateWithoutLessonSessionsInput = {
   isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCompanionNestedInput
+  defaultLessons?: Prisma.LessonUncheckedUpdateManyWithoutDefaultCompanionNestedInput
 }
 
 export type CompanionCreateManyUserInput = {
@@ -841,7 +838,7 @@ export type CompanionUpdateWithoutUserInput = {
   speakingStyle?: Prisma.StringFieldUpdateOperationsInput | string
   isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lessons?: Prisma.LessonUpdateManyWithoutCompanionNestedInput
+  defaultLessons?: Prisma.LessonUpdateManyWithoutDefaultCompanionNestedInput
   lessonSessions?: Prisma.LessonSessionUpdateManyWithoutCompanionNestedInput
 }
 
@@ -856,7 +853,7 @@ export type CompanionUncheckedUpdateWithoutUserInput = {
   speakingStyle?: Prisma.StringFieldUpdateOperationsInput | string
   isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCompanionNestedInput
+  defaultLessons?: Prisma.LessonUncheckedUpdateManyWithoutDefaultCompanionNestedInput
   lessonSessions?: Prisma.LessonSessionUncheckedUpdateManyWithoutCompanionNestedInput
 }
 
@@ -879,12 +876,12 @@ export type CompanionUncheckedUpdateManyWithoutUserInput = {
  */
 
 export type CompanionCountOutputType = {
-  lessons: number
+  defaultLessons: number
   lessonSessions: number
 }
 
 export type CompanionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  lessons?: boolean | CompanionCountOutputTypeCountLessonsArgs
+  defaultLessons?: boolean | CompanionCountOutputTypeCountDefaultLessonsArgs
   lessonSessions?: boolean | CompanionCountOutputTypeCountLessonSessionsArgs
 }
 
@@ -901,7 +898,7 @@ export type CompanionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
 /**
  * CompanionCountOutputType without action
  */
-export type CompanionCountOutputTypeCountLessonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type CompanionCountOutputTypeCountDefaultLessonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.LessonWhereInput
 }
 
@@ -926,7 +923,7 @@ export type CompanionSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   createdAt?: boolean
   userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  lessons?: boolean | Prisma.Companion$lessonsArgs<ExtArgs>
+  defaultLessons?: boolean | Prisma.Companion$defaultLessonsArgs<ExtArgs>
   lessonSessions?: boolean | Prisma.Companion$lessonSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.CompanionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["companion"]>
@@ -978,7 +975,7 @@ export type CompanionSelectScalar = {
 export type CompanionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "companionIcon" | "voiceProvider" | "voiceId" | "language" | "speakingStyle" | "isPublic" | "createdAt" | "userId", ExtArgs["result"]["companion"]>
 export type CompanionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  lessons?: boolean | Prisma.Companion$lessonsArgs<ExtArgs>
+  defaultLessons?: boolean | Prisma.Companion$defaultLessonsArgs<ExtArgs>
   lessonSessions?: boolean | Prisma.Companion$lessonSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.CompanionCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -993,7 +990,7 @@ export type $CompanionPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   name: "Companion"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
-    lessons: Prisma.$LessonPayload<ExtArgs>[]
+    defaultLessons: Prisma.$LessonPayload<ExtArgs>[]
     lessonSessions: Prisma.$LessonSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1403,7 +1400,7 @@ readonly fields: CompanionFieldRefs;
 export interface Prisma__CompanionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  lessons<T extends Prisma.Companion$lessonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Companion$lessonsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  defaultLessons<T extends Prisma.Companion$defaultLessonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Companion$defaultLessonsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   lessonSessions<T extends Prisma.Companion$lessonSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Companion$lessonSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LessonSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1846,9 +1843,9 @@ export type CompanionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * Companion.lessons
+ * Companion.defaultLessons
  */
-export type Companion$lessonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Companion$defaultLessonsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Lesson
    */
