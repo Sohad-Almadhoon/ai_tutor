@@ -5,6 +5,7 @@ import {
   deleteBookmarkAction,
 } from "@/actions/bookmark.action";
 import { deleteLessonAction } from "@/actions/lesson.action";
+import ConfirmationDialog from "@/components/ConfirmationDialog";
 import {
   ArrowRight,
   BookOpen,
@@ -40,6 +41,9 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
   const isBookmarked = bookmarkId !== null;
   const [isSavingBookmark, setIsSavingBookmark] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [confirmation, setConfirmation] = useState<"bookmark" | "lesson" | null>(
+    null
+  );
   const [bookmarkError, setBookmarkError] = useState("");
   const subjectColor =
     Object.entries(subjectsColors).find(
@@ -47,10 +51,8 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
     )?.[1] ?? "#EDE9FE";
 
   const handleBookmarkClick = async () => {
-    if (
-      bookmarkId !== null &&
-      !window.confirm("Remove this lesson from your saved lessons?")
-    ) {
+    if (bookmarkId !== null) {
+      setConfirmation("bookmark");
       return;
     }
 
@@ -58,19 +60,11 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
     setBookmarkError("");
 
     try {
-      if (bookmarkId !== null) {
-        const result = await deleteBookmarkAction(bookmarkId);
-        if (!result.success) throw new Error(result.error);
-        setBookmarkId(null);
-        showToast("success", "Lesson removed from your saved list.");
-        router.refresh();
-      } else {
-        const result = await createBookmarkAction(lesson.id);
-        if (!result.success) throw new Error(result.error);
-        setBookmarkId(result.data.id);
-        showToast("success", "Lesson saved successfully.");
-        router.refresh();
-      }
+      const result = await createBookmarkAction(lesson.id);
+      if (!result.success) throw new Error(result.error);
+      setBookmarkId(result.data.id);
+      showToast("success", "Lesson saved successfully.");
+      router.refresh();
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Could not update this lesson.";
@@ -82,26 +76,42 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
   };
 
   const handleDeleteLesson = async () => {
-    if (
-      !window.confirm(
-        "Permanently delete this lesson? Its saved bookmarks and learning session history will also be deleted."
-      )
-    ) {
-      return;
-    }
-
     setIsDeleting(true);
     try {
       const result = await deleteLessonAction(lesson.id);
       if (!result.success) throw new Error(result.error);
       showToast("success", "Lesson deleted successfully.");
       router.refresh();
+      return true;
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Could not delete this lesson.";
       showToast("error", message);
+      return false;
     } finally {
       setIsDeleting(false);
+    }
+  };
+
+  const handleRemoveBookmark = async () => {
+    if (bookmarkId === null) return true;
+
+    setIsSavingBookmark(true);
+    try {
+      const result = await deleteBookmarkAction(bookmarkId);
+      if (!result.success) throw new Error(result.error);
+      setBookmarkId(null);
+      showToast("success", "Lesson removed from your saved list.");
+      router.refresh();
+      return true;
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Could not update this lesson.";
+      setBookmarkError(message);
+      showToast("error", message);
+      return false;
+    } finally {
+      setIsSavingBookmark(false);
     }
   };
 
@@ -188,7 +198,7 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
         {lesson.isOwned && (
           <button
             type="button"
-            onClick={handleDeleteLesson}
+            onClick={() => setConfirmation("lesson")}
             disabled={isDeleting || isSavingBookmark}
             aria-label="Delete lesson"
             title="Delete lesson"
@@ -231,6 +241,22 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
           </p>
         )}
       </div>
+      <ConfirmationDialog
+        open={confirmation !== null}
+        title={
+          confirmation === "lesson" ? "Delete this lesson?" : "Remove saved lesson?"
+        }
+        description={
+          confirmation === "lesson"
+            ? "This permanently deletes the lesson, along with its saved bookmarks and learning session history."
+            : "This removes the lesson from your saved list. The lesson itself will not be deleted."
+        }
+        confirmLabel={confirmation === "lesson" ? "Delete lesson" : "Remove"}
+        onClose={() => setConfirmation(null)}
+        onConfirm={
+          confirmation === "lesson" ? handleDeleteLesson : handleRemoveBookmark
+        }
+      />
     </article>
   );
 };

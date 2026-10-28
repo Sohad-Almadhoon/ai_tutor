@@ -1,6 +1,7 @@
 "use client";
 
 import { deleteCompanionAction } from "@/actions/companion.action";
+import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { useToast } from "@/components/ToastProvider";
 import {
   ArrowRight,
@@ -31,6 +32,7 @@ const CompanionCard = ({ companion, isOwned }: CompanionCardProps) => {
   const router = useRouter();
   const showToast = useToast();
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const subjects = [
     ...new Set(companion.lessons.map((lesson) => lesson.subject)),
   ].map((subject) => ({
@@ -41,26 +43,20 @@ const CompanionCard = ({ companion, isOwned }: CompanionCardProps) => {
   }));
 
   const handleDelete = async () => {
-    if (
-      !window.confirm(
-        "Delete this companion? Its lessons will remain, but will no longer have this default tutor."
-      )
-    ) {
-      return;
-    }
-
     setIsDeleting(true);
     try {
       const result = await deleteCompanionAction(companion.id);
       if (!result.success) throw new Error(result.error);
       showToast("success", "Companion deleted successfully.");
       router.refresh();
+      return true;
     } catch (error) {
       const message =
         error instanceof Error
           ? error.message
           : "Could not delete this companion.";
       showToast("error", message);
+      return false;
     } finally {
       setIsDeleting(false);
     }
@@ -109,7 +105,7 @@ const CompanionCard = ({ companion, isOwned }: CompanionCardProps) => {
       {isOwned && (
         <button
           type="button"
-          onClick={handleDelete}
+          onClick={() => setIsDeleteDialogOpen(true)}
           disabled={isDeleting}
           aria-label="Delete companion"
           title="Delete companion"
@@ -158,6 +154,14 @@ const CompanionCard = ({ companion, isOwned }: CompanionCardProps) => {
           </span>
         </Link>
       </div>
+      <ConfirmationDialog
+        open={isDeleteDialogOpen}
+        title="Delete this companion?"
+        description="Its lessons will remain, but this companion will no longer be their default tutor."
+        confirmLabel="Delete companion"
+        onClose={() => setIsDeleteDialogOpen(false)}
+        onConfirm={handleDelete}
+      />
     </article>
   );
 };
