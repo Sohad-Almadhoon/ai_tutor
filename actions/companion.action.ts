@@ -275,6 +275,82 @@ export async function updateCompanionVisibilityAction(
   }
 }
 
+export async function updateCompanionAction(id: number, input: unknown) {
+  try {
+    const { userId } = await auth();
+    if (!userId) return failure("Unauthorized", 401);
+    if (!isValidId(id)) {
+      return failure("Invalid companion ID", 400);
+    }
+    if (typeof input !== "object" || input === null || Array.isArray(input)) {
+      return failure("Invalid companion details", 400);
+    }
+
+    const values = input as Record<string, unknown>;
+    const name = typeof values.name === "string" ? values.name.trim() : "";
+    const companionIcon = values.companionIcon;
+    const voiceProvider = values.voiceProvider;
+    const voiceId = values.voiceId;
+    const language = values.language;
+    const speakingStyle =
+      typeof values.speakingStyle === "string" ? values.speakingStyle.trim() : "";
+    const styles = speakingStyle.split(",").map((style) => style.trim());
+
+    if (
+      !name ||
+      name.length > 100 ||
+      typeof companionIcon !== "string" ||
+      !companionAvatars.some((avatar) => avatar === companionIcon) ||
+      typeof voiceProvider !== "string" ||
+      typeof voiceId !== "string" ||
+      !voiceOptions.some(
+        (voice) => voice.provider === voiceProvider && voice.id === voiceId
+      ) ||
+      typeof language !== "string" ||
+      !languages.some((supportedLanguage) => supportedLanguage === language) ||
+      !speakingStyle ||
+      styles.some(
+        (style) =>
+          !speakingStyles.some(
+            (supportedStyle) =>
+              supportedStyle.toLowerCase() === style.toLowerCase()
+          )
+      ) ||
+      typeof values.isPublic !== "boolean"
+    ) {
+      return failure("Invalid companion details", 400);
+    }
+
+    const result = await prisma.companion.updateMany({
+      where: { id, userId },
+      data: {
+        name,
+        description: createCompanionDescription(name, speakingStyle),
+        companionIcon,
+        voiceProvider,
+        voiceId,
+        language,
+        speakingStyle,
+        isPublic: values.isPublic,
+      },
+    });
+    if (result.count === 0) return failure("Companion not found", 404);
+
+    const companion = await prisma.companion.findUnique({ where: { id } });
+    if (!companion) return failure("Companion not found", 404);
+    revalidatePath("/companions");
+    revalidatePath(`/companions/${id}`);
+    revalidatePath(`/companions/${id}/lessons`);
+    revalidatePath("/lessons");
+    revalidatePath("/learning-sessions");
+    revalidatePath("/my-journey");
+    return success(companion);
+  } catch (error) {
+    console.error("Failed to update companion:", error);
+    return failure("Failed to update companion", 500);
+  }
+}
+
 export async function deleteCompanionAction(id: number) {
   try {
     const { userId } = await auth();

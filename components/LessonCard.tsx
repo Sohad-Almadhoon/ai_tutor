@@ -5,6 +5,7 @@ import {
   deleteBookmarkAction,
 } from "@/actions/bookmark.action";
 import { deleteLessonAction } from "@/actions/lesson.action";
+import CardActionsMenu from "@/components/CardActionsMenu";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import {
   ArrowRight,
@@ -12,7 +13,6 @@ import {
   Bookmark,
   Clock3,
   Sparkles,
-  Trash2,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -196,19 +196,12 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
 
       <div className="absolute right-4 top-4 flex gap-2">
         {lesson.isOwned && (
-          <button
-            type="button"
-            onClick={() => setConfirmation("lesson")}
-            disabled={isDeleting || isSavingBookmark}
-            aria-label="Delete lesson"
-            title="Delete lesson"
-            className="flex size-9 items-center justify-center rounded-xl border border-red-100 bg-white text-red-500 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-red-100 disabled:cursor-wait disabled:opacity-60"
-          >
-            <Trash2
-              className={`size-4 ${isDeleting ? "animate-pulse" : ""}`}
-              aria-hidden="true"
-            />
-          </button>
+          <CardActionsMenu
+            editHref={`/lessons/${lesson.id}/edit`}
+            itemName={lesson.name}
+            isDisabled={isDeleting || isSavingBookmark}
+            onDelete={() => setConfirmation("lesson")}
+          />
         )}
         <button
           type="button"

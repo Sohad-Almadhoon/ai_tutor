@@ -1,6 +1,7 @@
 "use client";
 
 import { deleteCompanionAction } from "@/actions/companion.action";
+import CardActionsMenu from "@/components/CardActionsMenu";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { useToast } from "@/components/ToastProvider";
 import {
@@ -8,7 +9,6 @@ import {
   BookOpen,
   Layers3Icon,
   Sparkles,
-  Trash2,
 } from "lucide-react";
 import Image from "next/image";
 import { subjectsColors } from "@/constants";
@@ -103,19 +103,14 @@ const CompanionCard = ({ companion, isOwned }: CompanionCardProps) => {
       </div>
 
       {isOwned && (
-        <button
-          type="button"
-          onClick={() => setIsDeleteDialogOpen(true)}
-          disabled={isDeleting}
-          aria-label="Delete companion"
-          title="Delete companion"
-          className="absolute right-4 top-4 z-10 flex size-9 items-center justify-center rounded-xl border border-red-100 bg-white text-red-500 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-red-100 disabled:cursor-wait disabled:opacity-60"
-        >
-          <Trash2
-            className={`size-4 ${isDeleting ? "animate-pulse" : ""}`}
-            aria-hidden="true"
+        <div className="absolute right-4 top-4 z-10">
+          <CardActionsMenu
+            editHref={`/companions/${companion.id}/edit`}
+            itemName={companion.name}
+            isDisabled={isDeleting}
+            onDelete={() => setIsDeleteDialogOpen(true)}
           />
-        </button>
+        </div>
       )}
 
       <div className="relative flex flex-wrap gap-2">

@@ -301,8 +301,16 @@ export async function updateLessonAction(lessonId: number, input: unknown) {
       where: { id: lessonId },
       include: { defaultCompanion: true },
     });
+    if (!lesson) return failure("Lesson not found", 404);
     revalidatePath("/lessons");
+    revalidatePath(`/lessons/${lessonId}`);
+    revalidatePath("/bookmarks");
     revalidatePath("/companions");
+    if (lesson.defaultCompanionId) {
+      revalidatePath(`/companions/${lesson.defaultCompanionId}/lessons`);
+    }
+    revalidatePath("/learning-sessions");
+    revalidatePath("/my-journey");
     return success(lesson);
   } catch (error) {
     console.error("Failed to update lesson:", error);
