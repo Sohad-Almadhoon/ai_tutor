@@ -2,7 +2,6 @@ import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import "./globals.css";
 import { DM_Sans, Space_Grotesk } from "next/font/google";
-import { cn } from "@/lib/utils";
 import AppSidebar from "@/components/AppSidebar";
 import ToastProvider from "@/components/ToastProvider";
 
@@ -30,7 +29,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("font-sans", dmSans.variable, spaceGrotesk.variable)}
+      className={`font-sans ${dmSans.variable} ${spaceGrotesk.variable}`}
     >
       <body className="antialiased">
         <ClerkProvider appearance={{ variables: { colorPrimary: "#7357f6" } }}>
