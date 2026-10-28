@@ -4,7 +4,15 @@ import {
   createBookmarkAction,
   deleteBookmarkAction,
 } from "@/actions/bookmark.action";
-import { ArrowRight, BookOpen, Bookmark, Clock3, Sparkles } from "lucide-react";
+import { deleteLessonAction } from "@/actions/lesson.action";
+import {
+  ArrowRight,
+  BookOpen,
+  Bookmark,
+  Clock3,
+  Sparkles,
+  Trash2,
+} from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -20,6 +28,7 @@ type LessonCardProps = {
     targetDurationMinutes: number;
     isPublic: boolean;
     bookmarkId: number | null;
+    isOwned?: boolean;
     defaultCompanion: { name: string; companionIcon: string } | null;
   };
 };
@@ -30,6 +39,7 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
   const [bookmarkId, setBookmarkId] = useState(lesson.bookmarkId);
   const isBookmarked = bookmarkId !== null;
   const [isSavingBookmark, setIsSavingBookmark] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [bookmarkError, setBookmarkError] = useState("");
   const subjectColor =
     Object.entries(subjectsColors).find(
@@ -37,6 +47,13 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
     )?.[1] ?? "#EDE9FE";
 
   const handleBookmarkClick = async () => {
+    if (
+      bookmarkId !== null &&
+      !window.confirm("Remove this lesson from your saved lessons?")
+    ) {
+      return;
+    }
+
     setIsSavingBookmark(true);
     setBookmarkError("");
 
@@ -61,6 +78,30 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
       showToast("error", message);
     } finally {
       setIsSavingBookmark(false);
+    }
+  };
+
+  const handleDeleteLesson = async () => {
+    if (
+      !window.confirm(
+        "Permanently delete this lesson? Its saved bookmarks and learning session history will also be deleted."
+      )
+    ) {
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      const result = await deleteLessonAction(lesson.id);
+      if (!result.success) throw new Error(result.error);
+      showToast("success", "Lesson deleted successfully.");
+      router.refresh();
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Could not delete this lesson.";
+      showToast("error", message);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -93,7 +134,7 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
         </div>
 
         <div className="mt-5">
-          <h2 className="line-clamp-2 min-h-14 text-xl font-bold leading-7 tracking-tight text-slate-900 transition-colors group-hover:text-violet-800">
+          <h2 className="line-clamp-2 min-h-14 pr-16 text-xl font-bold leading-7 tracking-tight text-slate-900 transition-colors group-hover:text-violet-800">
             {lesson.name}
           </h2>
           <p className="mt-2 line-clamp-3 min-h-[4.5rem] text-sm leading-6 text-slate-600">
@@ -143,11 +184,26 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
         </div>
       </div>
 
-      <div className="absolute right-4 top-4">
+      <div className="absolute right-4 top-4 flex gap-2">
+        {lesson.isOwned && (
+          <button
+            type="button"
+            onClick={handleDeleteLesson}
+            disabled={isDeleting || isSavingBookmark}
+            aria-label="Delete lesson"
+            title="Delete lesson"
+            className="flex size-9 items-center justify-center rounded-xl border border-red-100 bg-white text-red-500 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-red-100 disabled:cursor-wait disabled:opacity-60"
+          >
+            <Trash2
+              className={`size-4 ${isDeleting ? "animate-pulse" : ""}`}
+              aria-hidden="true"
+            />
+          </button>
+        )}
         <button
           type="button"
           onClick={handleBookmarkClick}
-          disabled={isSavingBookmark}
+          disabled={isSavingBookmark || isDeleting}
           aria-label={isBookmarked ? "Remove saved lesson" : "Save lesson"}
           aria-pressed={isBookmarked}
           title={isBookmarked ? "Remove from saved lessons" : "Save this lesson"}
@@ -157,11 +213,14 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
               : "border-slate-200 text-slate-400"
           }`}
         >
-          <Bookmark
-            className={`size-4 ${isSavingBookmark ? "animate-pulse" : ""}`}
-            fill={isBookmarked ? "currentColor" : "none"}
-            aria-hidden="true"
-          />
+          {isBookmarked ? (
+            <Trash2
+              className={`size-4 ${isSavingBookmark ? "animate-pulse" : ""}`}
+              aria-hidden="true"
+            />
+          ) : (
+            <Bookmark className="size-4" aria-hidden="true" />
+          )}
         </button>
         {bookmarkError && (
           <p

@@ -19,7 +19,15 @@ export async function getBookmarksAction() {
       orderBy: { createdAt: "desc" },
     });
 
-    return success(bookmarks);
+    return success(
+      bookmarks.map((bookmark) => ({
+        ...bookmark,
+        lesson: {
+          ...bookmark.lesson,
+          isOwned: bookmark.lesson.createdById === userId,
+        },
+      }))
+    );
   } catch (error) {
     console.error("Failed to fetch bookmarks:", error);
     return failure("Failed to fetch bookmarks", 500);

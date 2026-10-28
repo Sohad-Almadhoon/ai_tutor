@@ -289,6 +289,9 @@ export async function deleteCompanionAction(id: number) {
     if (result.count === 0) return failure("Companion not found", 404);
 
     revalidatePath("/companions");
+    revalidatePath("/lessons");
+    revalidatePath("/learning-sessions");
+    revalidatePath("/my-journey");
     return success({ message: "Companion deleted successfully" });
   } catch (error) {
     console.error("Failed to delete companion:", error);

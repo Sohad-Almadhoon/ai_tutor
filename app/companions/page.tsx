@@ -56,6 +56,7 @@ const LearningCompanions = async () => {
           {companions.map((companion) => (
             <CompanionCard
               key={companion.id}
+              isOwned={companion.userId === userId}
               companion={{ ...companion, lessons: companion.defaultLessons }}
             />
           ))}

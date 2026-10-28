@@ -131,6 +131,7 @@ const CompanionLessonsPage = async ({
                 key={lesson.id}
                 lesson={{
                   ...lesson,
+                  isOwned: lesson.isOwned,
                   bookmarkId: null,
                   defaultCompanion: {
                     name: companion.name,

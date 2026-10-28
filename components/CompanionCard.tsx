@@ -1,9 +1,22 @@
-import { ArrowRight, BookOpen, Layers3Icon, Sparkles } from "lucide-react";
+"use client";
+
+import { deleteCompanionAction } from "@/actions/companion.action";
+import { useToast } from "@/components/ToastProvider";
+import {
+  ArrowRight,
+  BookOpen,
+  Layers3Icon,
+  Sparkles,
+  Trash2,
+} from "lucide-react";
 import Image from "next/image";
 import { subjectsColors } from "@/constants";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 type CompanionCardProps = {
+  isOwned: boolean;
   companion: {
     id: number;
     name: string;
@@ -14,7 +27,10 @@ type CompanionCardProps = {
   };
 };
 
-const CompanionCard = ({ companion }: CompanionCardProps) => {
+const CompanionCard = ({ companion, isOwned }: CompanionCardProps) => {
+  const router = useRouter();
+  const showToast = useToast();
+  const [isDeleting, setIsDeleting] = useState(false);
   const subjects = [
     ...new Set(companion.lessons.map((lesson) => lesson.subject)),
   ].map((subject) => ({
@@ -23,6 +39,33 @@ const CompanionCard = ({ companion }: CompanionCardProps) => {
       ([key]) => key === subject.toLowerCase()
     )?.[1],
   }));
+
+  const handleDelete = async () => {
+    if (
+      !window.confirm(
+        "Delete this companion? Its lessons will remain, but will no longer have this default tutor."
+      )
+    ) {
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      const result = await deleteCompanionAction(companion.id);
+      if (!result.success) throw new Error(result.error);
+      showToast("success", "Companion deleted successfully.");
+      router.refresh();
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Could not delete this companion.";
+      showToast("error", message);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <article className="group relative flex min-h-72 flex-col gap-5 overflow-hidden rounded-3xl border border-slate-200/90 bg-white p-5 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-violet-200 hover:shadow-xl hover:shadow-violet-950/5 sm:p-6">
       <div
@@ -62,6 +105,22 @@ const CompanionCard = ({ companion }: CompanionCardProps) => {
           </p>
         </div>
       </div>
+
+      {isOwned && (
+        <button
+          type="button"
+          onClick={handleDelete}
+          disabled={isDeleting}
+          aria-label="Delete companion"
+          title="Delete companion"
+          className="absolute right-4 top-4 z-10 flex size-9 items-center justify-center rounded-xl border border-red-100 bg-white text-red-500 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-red-100 disabled:cursor-wait disabled:opacity-60"
+        >
+          <Trash2
+            className={`size-4 ${isDeleting ? "animate-pulse" : ""}`}
+            aria-hidden="true"
+          />
+        </button>
+      )}
 
       <div className="relative flex flex-wrap gap-2">
         {subjects.length > 0 ? subjects.map(({ name, color }) => (

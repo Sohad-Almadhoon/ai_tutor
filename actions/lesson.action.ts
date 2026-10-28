@@ -78,7 +78,10 @@ export async function getCompanionLessonsAction(companionId: number) {
         description: companion.description,
         language: companion.language,
       },
-      lessons: companion.defaultLessons,
+      lessons: companion.defaultLessons.map((lesson) => ({
+        ...lesson,
+        isOwned: lesson.createdById === userId,
+      })),
     });
   } catch (error) {
     console.error("Failed to fetch companion lessons:", error);
@@ -189,6 +192,7 @@ export async function discoverLessonsAction(input: {
       const bookmark = bookmarks[0] ?? null;
       return {
         ...lessonDetails,
+        isOwned: lesson.createdById === userId,
         bookmarkId: bookmark?.id ?? null,
         defaultCompanion:
           lesson.defaultCompanion &&
@@ -320,7 +324,10 @@ export async function deleteLessonAction(lessonId: number) {
     if (result.count === 0) return failure("Lesson not found", 404);
 
     revalidatePath("/lessons");
+    revalidatePath("/bookmarks");
     revalidatePath("/companions");
+    revalidatePath("/learning-sessions");
+    revalidatePath("/my-journey");
     return success({ message: "Lesson deleted successfully" });
   } catch (error) {
     console.error("Failed to delete lesson:", error);
