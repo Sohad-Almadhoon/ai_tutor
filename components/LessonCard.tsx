@@ -223,14 +223,11 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
               : "border-slate-200 text-slate-400"
           }`}
         >
-          {isBookmarked ? (
-            <Trash2
-              className={`size-4 ${isSavingBookmark ? "animate-pulse" : ""}`}
-              aria-hidden="true"
-            />
-          ) : (
-            <Bookmark className="size-4" aria-hidden="true" />
-          )}
+          <Bookmark
+            className={`size-4 ${isSavingBookmark ? "animate-pulse" : ""}`}
+            fill={isBookmarked ? "currentColor" : "none"}
+            aria-hidden="true"
+          />
         </button>
         {bookmarkError && (
           <p
