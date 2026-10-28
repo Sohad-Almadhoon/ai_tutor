@@ -64,6 +64,29 @@ function getVapiVoiceOverride(voice: LessonCallVoice) {
   }
 }
 
+function getVoiceErrorMessage(
+  error: unknown,
+  fallback: string,
+  depth = 0
+): string {
+  if (typeof error === "string" && error.trim()) return error;
+  if (error instanceof Error && error.message) return error.message;
+  if (typeof error !== "object" || error === null || depth >= 3) {
+    return fallback;
+  }
+
+  for (const key of ["msg", "message", "error", "details"]) {
+    const value = Reflect.get(error, key);
+    if (typeof value === "string" && value.trim()) return value;
+    if (typeof value === "object" && value !== null) {
+      const message = getVoiceErrorMessage(value, "", depth + 1);
+      if (message) return message;
+    }
+  }
+
+  return fallback;
+}
+
 const LessonCallRoom = ({
   lesson,
   companions,
@@ -174,7 +197,10 @@ const LessonCallRoom = ({
     });
     vapi.on("call-start-failed", (event) => {
       desiredSessionStatusRef.current = "ABANDONED";
-      const message = event.error || "The voice call could not be started.";
+      const message = getVoiceErrorMessage(
+        event.error,
+        "The voice call could not be started."
+      );
       setError(message);
       showToast("error", message);
       void finishSession();
@@ -183,17 +209,12 @@ const LessonCallRoom = ({
       });
     });
     vapi.on("error", (event) => {
-      setError(
-        event instanceof Error
-          ? event.message
-          : "A voice connection error occurred. Please try again."
+      const message = getVoiceErrorMessage(
+        event,
+        "A voice connection error occurred. Please try again."
       );
-      showToast(
-        "error",
-        event instanceof Error
-          ? event.message
-          : "A voice connection error occurred. Please try again."
-      );
+      setError(message);
+      showToast("error", message);
     });
 
     return () => {
@@ -249,10 +270,10 @@ const LessonCallRoom = ({
       if (!call) throw new Error("Vapi did not create a voice call.");
     } catch (startError) {
       desiredSessionStatusRef.current = "ABANDONED";
-      const message =
-        startError instanceof Error
-          ? startError.message
-          : "The voice call could not be started.";
+      const message = getVoiceErrorMessage(
+        startError,
+        "The voice call could not be started."
+      );
       setError(message);
       showToast("error", message);
       await finishSession();
@@ -277,17 +298,12 @@ const LessonCallRoom = ({
       setCallState("idle");
     } catch (stopError) {
       setCallState("connected");
-      setError(
-        stopError instanceof Error
-          ? stopError.message
-          : "The call could not be ended cleanly."
+      const message = getVoiceErrorMessage(
+        stopError,
+        "The call could not be ended cleanly."
       );
-      showToast(
-        "error",
-        stopError instanceof Error
-          ? stopError.message
-          : "The call could not be ended cleanly."
-      );
+      setError(message);
+      showToast("error", message);
     }
   };
 
