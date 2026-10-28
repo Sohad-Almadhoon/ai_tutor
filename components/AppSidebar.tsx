@@ -5,8 +5,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   SignedIn,
-  SignedOut,
-  SignInButton,
   SignOutButton,
   UserButton,
   useUser,
@@ -26,7 +24,6 @@ import {
   LogOut,
   Settings,
   Sparkles,
-  UsersRound,
   X,
   type LucideIcon,
 } from "lucide-react";
@@ -302,29 +299,6 @@ export default function AppSidebar() {
             isCollapsed ? "flex justify-center" : ""
           }`}
         >
-          <SignedOut>
-            {isCollapsed ? (
-              <SignInButton>
-                <button
-                  type="button"
-                  title="Sign in"
-                  aria-label="Sign in"
-                  className="flex size-10 items-center justify-center rounded-xl text-slate-600 hover:bg-slate-100"
-                >
-                  <UsersRound className="size-4.5" aria-hidden="true" />
-                </button>
-              </SignInButton>
-            ) : (
-              <SignInButton>
-                <button
-                  type="button"
-                  className="h-10 w-full cursor-pointer rounded-xl bg-violet-600 px-4 text-sm font-semibold text-white transition hover:bg-violet-700"
-                >
-                  Sign in
-                </button>
-              </SignInButton>
-            )}
-          </SignedOut>
           <SignedIn>
             <div
               className={`flex min-w-0 items-center ${
@@ -410,16 +384,6 @@ export default function AppSidebar() {
             </div>
             <SidebarLinks onNavigate={() => setIsOpen(false)} />
             <div className="mt-auto space-y-4 pt-6">
-              <SignedOut>
-                <SignInButton>
-                  <button
-                    type="button"
-                    className="h-11 w-full cursor-pointer rounded-xl bg-violet-600 px-4 text-sm font-semibold text-white transition hover:bg-violet-700"
-                  >
-                    Sign in
-                  </button>
-                </SignInButton>
-              </SignedOut>
               <SignedIn>
                 <div className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-3">
                   <UserButton
