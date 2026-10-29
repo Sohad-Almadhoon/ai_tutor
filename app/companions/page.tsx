@@ -1,23 +1,32 @@
 import CompanionCard from "@/components/CompanionCard";
+import { FREE_COMPANION_LIMIT } from "@/constants";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 import { ArrowRight, Sparkles, UsersRound } from "lucide-react";
 
 const LearningCompanions = async () => {
-  const { userId } = await auth();
-  const companions = await prisma.companion.findMany({
-    where: userId ? { OR: [{ userId }, { isPublic: true }] } : { isPublic: true },
-    include: {
-      defaultLessons: {
-        where: userId
-          ? { OR: [{ createdById: userId }, { isPublic: true }] }
-          : { isPublic: true },
-        select: { id: true, subject: true },
+  const { userId, has } = await auth();
+  const isPro = userId ? has({ plan: "pro" }) : false;
+  const [companions, ownedCompanionCount] = await Promise.all([
+    prisma.companion.findMany({
+      where: userId ? { OR: [{ userId }, { isPublic: true }] } : { isPublic: true },
+      include: {
+        defaultLessons: {
+          where: userId
+            ? { OR: [{ createdById: userId }, { isPublic: true }] }
+            : { isPublic: true },
+          select: { id: true, subject: true },
+        },
       },
-    },
-    orderBy: [{ createdAt: "desc" }, { id: "desc" }],
-  });
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+    }),
+    userId
+      ? prisma.companion.count({ where: { userId } })
+      : Promise.resolve(0),
+  ]);
+  const hasReachedFreeLimit =
+    !isPro && ownedCompanionCount >= FREE_COMPANION_LIMIT;
 
   return (
     <main className="mx-auto w-full max-w-7xl px-5 py-8 sm:px-8 sm:py-10">
@@ -39,13 +48,22 @@ const LearningCompanions = async () => {
               Meet AI tutors with their own teaching style, voice, and favorite
               subjects.
             </p>
+            <p className="mt-3 text-sm font-medium text-slate-600">
+              {isPro
+                ? "Pro plan · Create unlimited companions"
+                : `Free plan · ${ownedCompanionCount} of ${FREE_COMPANION_LIMIT} active companions`}
+            </p>
           </div>
           <Link
-            href="/companions/new"
+            href={hasReachedFreeLimit ? "/subscription" : "/companions/new"}
             className="inline-flex h-11 items-center gap-2 rounded-xl bg-violet-600 px-5 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition hover:-translate-y-0.5 hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-violet-200"
           >
-            <UsersRound className="size-4" aria-hidden="true" />
-            Create Companion
+            {hasReachedFreeLimit ? (
+              <Sparkles className="size-4" aria-hidden="true" />
+            ) : (
+              <UsersRound className="size-4" aria-hidden="true" />
+            )}
+            {hasReachedFreeLimit ? "Upgrade for more" : "Create Companion"}
             <ArrowRight className="size-4" aria-hidden="true" />
           </Link>
         </div>

@@ -1,4 +1,4 @@
-export function failure(error: string, status: 400 | 401 | 404 | 500) {
+export function failure(error: string, status: 400 | 401 | 403 | 404 | 500) {
   return { success: false as const, error, status };
 }
 

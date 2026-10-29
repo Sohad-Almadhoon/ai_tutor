@@ -159,6 +159,8 @@ export const languages = [
 
 export const lessonDurations = [10, 15, 20, 30, 45, 60] as const;
 
+export const FREE_COMPANION_LIMIT = 3;
+
 export const recentSessions = [
   {
     id: "1",

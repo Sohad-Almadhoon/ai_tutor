@@ -2,6 +2,7 @@
 
 import {
   companionAvatars,
+  FREE_COMPANION_LIMIT,
   languages,
   lessonDurations,
   speakingStyles,
@@ -172,42 +173,60 @@ export async function getCompanionsAction(input: GetCompanionsInput = {}) {
 
 export async function createCompanionAction(input: unknown) {
   try {
-    const { userId } = await auth();
+    const { userId, has } = await auth();
     if (!userId) return failure("Unauthorized", 401);
     const details = parseCreateCompanionInput(input);
     if (!details) return failure("Invalid companion details", 400);
+    const isPro = has({ plan: "pro" });
 
     const { name, speakingStyle, lesson } = details;
-    const companion = await prisma.$transaction(async (transaction) => {
-      await transaction.user.upsert({
-        where: { id: userId },
-        update: {},
-        create: { id: userId },
-      });
+    const companion = await prisma.$transaction(
+      async (transaction) => {
+        await transaction.user.upsert({
+          where: { id: userId },
+          update: {},
+          create: { id: userId },
+        });
 
-      return transaction.companion.create({
-        data: {
-          name,
-          description: createCompanionDescription(name, speakingStyle),
-          companionIcon: details.companionIcon,
-          voiceProvider: details.voiceProvider,
-          voiceId: details.voiceId,
-          language: details.language,
-          speakingStyle,
-          isPublic: details.isPublic,
-          userId,
-          defaultLessons: {
-            create: [
-              {
-                ...lesson,
-                createdById: userId,
-                isPublic: details.isPublic,
-              },
-            ],
+        if (!isPro) {
+          const companionCount = await transaction.companion.count({
+            where: { userId },
+          });
+          if (companionCount >= FREE_COMPANION_LIMIT) return null;
+        }
+
+        return transaction.companion.create({
+          data: {
+            name,
+            description: createCompanionDescription(name, speakingStyle),
+            companionIcon: details.companionIcon,
+            voiceProvider: details.voiceProvider,
+            voiceId: details.voiceId,
+            language: details.language,
+            speakingStyle,
+            isPublic: details.isPublic,
+            userId,
+            defaultLessons: {
+              create: [
+                {
+                  ...lesson,
+                  createdById: userId,
+                  isPublic: details.isPublic,
+                },
+              ],
+            },
           },
-        },
-      });
-    });
+        });
+      },
+      { isolationLevel: "Serializable" }
+    );
+
+    if (!companion) {
+      return failure(
+        "The free plan allows up to 3 companions. Upgrade to Pro to create more.",
+        403
+      );
+    }
 
     revalidatePath("/companions");
     return success(companion, 201);

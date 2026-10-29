@@ -21,6 +21,9 @@ export default function SubscriptionPage() {
             Choose the plan that gives you the right tools for your learning
             journey.
           </p>
+          <p className="mt-3 text-sm leading-6 text-slate-600">
+            The free plan includes up to 3 companions. Pro removes that limit.
+          </p>
           <p className="mt-4 inline-flex items-center gap-2 text-xs font-medium text-slate-500">
             <BadgeCheck className="size-4 text-violet-500" aria-hidden="true" />
             Secure subscription management
