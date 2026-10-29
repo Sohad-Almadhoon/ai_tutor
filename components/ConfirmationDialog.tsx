@@ -55,7 +55,7 @@ export default function ConfirmationDialog({
       onClick={(event) => {
         if (event.target === dialogRef.current && !isPending) onClose();
       }}
-      className="w-[min(28rem,calc(100%-2rem))] rounded-3xl border-0 bg-white p-0 text-slate-900 shadow-2xl backdrop:bg-slate-950/50"
+      className="fixed left-1/2 top-1/2 m-0 w-[min(28rem,calc(100%-2rem))] -translate-x-1/2 -translate-y-1/2 rounded-3xl border-0 bg-white p-0 text-slate-900 shadow-2xl backdrop:bg-slate-950/50"
     >
       <div className="p-6 sm:p-7">
         <div className="flex items-start gap-4">
