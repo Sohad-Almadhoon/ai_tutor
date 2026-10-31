@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, ExternalLink, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -37,6 +37,15 @@ export default function Home() {
               <BookOpen className="size-4" aria-hidden="true" />
               Meet the tutors
             </Link>
+            <a
+              href="https://ai-tutor-nine-snowy.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-12 items-center gap-2 rounded-xl border border-slate-200 bg-white/70 px-5 text-sm font-semibold text-slate-700 transition hover:bg-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-violet-200"
+            >
+              Visit Learnova
+              <ExternalLink className="size-4" aria-hidden="true" />
+            </a>
           </div>
         </div>
       </section>
