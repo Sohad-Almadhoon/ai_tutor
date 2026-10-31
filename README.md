@@ -23,6 +23,7 @@ A real-time AI teaching platform where learners pick a subject, choose a tutor v
 - A **Companion** stores a tutor's identity and voice settings and can be reused across multiple lessons. Its `isPublic` flag controls whether other users can discover and learn from that tutor.
 - A **Lesson** stores a subject, topic, and target duration in minutes for one lesson offered by a companion.
 - A **LessonSession** records one learner's attempt at a lesson. Its `durationSeconds` is the actual elapsed session time; the lesson's target duration is informational and does not end the session automatically.
+- Completed and abandoned sessions retain their voice-conversation transcript for review from Learning Sessions.
 
 ## Getting Started
 

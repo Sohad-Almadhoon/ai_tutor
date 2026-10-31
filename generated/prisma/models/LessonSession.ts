@@ -71,6 +71,7 @@ export type LessonSessionCountAggregateOutputType = {
   startedAt: number
   endedAt: number
   durationSeconds: number
+  transcript: number
   _all: number
 }
 
@@ -120,6 +121,7 @@ export type LessonSessionCountAggregateInputType = {
   startedAt?: true
   endedAt?: true
   durationSeconds?: true
+  transcript?: true
   _all?: true
 }
 
@@ -218,6 +220,7 @@ export type LessonSessionGroupByOutputType = {
   startedAt: Date
   endedAt: Date | null
   durationSeconds: number | null
+  transcript: runtime.JsonValue | null
   _count: LessonSessionCountAggregateOutputType | null
   _avg: LessonSessionAvgAggregateOutputType | null
   _sum: LessonSessionSumAggregateOutputType | null
@@ -252,6 +255,7 @@ export type LessonSessionWhereInput = {
   startedAt?: Prisma.DateTimeFilter<"LessonSession"> | Date | string
   endedAt?: Prisma.DateTimeNullableFilter<"LessonSession"> | Date | string | null
   durationSeconds?: Prisma.IntNullableFilter<"LessonSession"> | number | null
+  transcript?: Prisma.JsonNullableFilter<"LessonSession">
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   lesson?: Prisma.XOR<Prisma.LessonScalarRelationFilter, Prisma.LessonWhereInput>
   companion?: Prisma.XOR<Prisma.CompanionNullableScalarRelationFilter, Prisma.CompanionWhereInput> | null
@@ -266,6 +270,7 @@ export type LessonSessionOrderByWithRelationInput = {
   startedAt?: Prisma.SortOrder
   endedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   durationSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
+  transcript?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   lesson?: Prisma.LessonOrderByWithRelationInput
   companion?: Prisma.CompanionOrderByWithRelationInput
@@ -283,6 +288,7 @@ export type LessonSessionWhereUniqueInput = Prisma.AtLeast<{
   startedAt?: Prisma.DateTimeFilter<"LessonSession"> | Date | string
   endedAt?: Prisma.DateTimeNullableFilter<"LessonSession"> | Date | string | null
   durationSeconds?: Prisma.IntNullableFilter<"LessonSession"> | number | null
+  transcript?: Prisma.JsonNullableFilter<"LessonSession">
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   lesson?: Prisma.XOR<Prisma.LessonScalarRelationFilter, Prisma.LessonWhereInput>
   companion?: Prisma.XOR<Prisma.CompanionNullableScalarRelationFilter, Prisma.CompanionWhereInput> | null
@@ -297,6 +303,7 @@ export type LessonSessionOrderByWithAggregationInput = {
   startedAt?: Prisma.SortOrder
   endedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   durationSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
+  transcript?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.LessonSessionCountOrderByAggregateInput
   _avg?: Prisma.LessonSessionAvgOrderByAggregateInput
   _max?: Prisma.LessonSessionMaxOrderByAggregateInput
@@ -316,6 +323,7 @@ export type LessonSessionScalarWhereWithAggregatesInput = {
   startedAt?: Prisma.DateTimeWithAggregatesFilter<"LessonSession"> | Date | string
   endedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"LessonSession"> | Date | string | null
   durationSeconds?: Prisma.IntNullableWithAggregatesFilter<"LessonSession"> | number | null
+  transcript?: Prisma.JsonNullableWithAggregatesFilter<"LessonSession">
 }
 
 export type LessonSessionCreateInput = {
@@ -323,6 +331,7 @@ export type LessonSessionCreateInput = {
   startedAt?: Date | string
   endedAt?: Date | string | null
   durationSeconds?: number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   user: Prisma.UserCreateNestedOneWithoutLessonSessionsInput
   lesson: Prisma.LessonCreateNestedOneWithoutLessonSessionsInput
   companion?: Prisma.CompanionCreateNestedOneWithoutLessonSessionsInput
@@ -337,6 +346,7 @@ export type LessonSessionUncheckedCreateInput = {
   startedAt?: Date | string
   endedAt?: Date | string | null
   durationSeconds?: number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type LessonSessionUpdateInput = {
@@ -344,6 +354,7 @@ export type LessonSessionUpdateInput = {
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   user?: Prisma.UserUpdateOneRequiredWithoutLessonSessionsNestedInput
   lesson?: Prisma.LessonUpdateOneRequiredWithoutLessonSessionsNestedInput
   companion?: Prisma.CompanionUpdateOneWithoutLessonSessionsNestedInput
@@ -358,6 +369,7 @@ export type LessonSessionUncheckedUpdateInput = {
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type LessonSessionCreateManyInput = {
@@ -369,6 +381,7 @@ export type LessonSessionCreateManyInput = {
   startedAt?: Date | string
   endedAt?: Date | string | null
   durationSeconds?: number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type LessonSessionUpdateManyMutationInput = {
@@ -376,6 +389,7 @@ export type LessonSessionUpdateManyMutationInput = {
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type LessonSessionUncheckedUpdateManyInput = {
@@ -387,6 +401,7 @@ export type LessonSessionUncheckedUpdateManyInput = {
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type LessonSessionListRelationFilter = {
@@ -408,6 +423,7 @@ export type LessonSessionCountOrderByAggregateInput = {
   startedAt?: Prisma.SortOrder
   endedAt?: Prisma.SortOrder
   durationSeconds?: Prisma.SortOrder
+  transcript?: Prisma.SortOrder
 }
 
 export type LessonSessionAvgOrderByAggregateInput = {
@@ -585,6 +601,7 @@ export type LessonSessionCreateWithoutUserInput = {
   startedAt?: Date | string
   endedAt?: Date | string | null
   durationSeconds?: number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   lesson: Prisma.LessonCreateNestedOneWithoutLessonSessionsInput
   companion?: Prisma.CompanionCreateNestedOneWithoutLessonSessionsInput
 }
@@ -597,6 +614,7 @@ export type LessonSessionUncheckedCreateWithoutUserInput = {
   startedAt?: Date | string
   endedAt?: Date | string | null
   durationSeconds?: number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type LessonSessionCreateOrConnectWithoutUserInput = {
@@ -637,6 +655,7 @@ export type LessonSessionScalarWhereInput = {
   startedAt?: Prisma.DateTimeFilter<"LessonSession"> | Date | string
   endedAt?: Prisma.DateTimeNullableFilter<"LessonSession"> | Date | string | null
   durationSeconds?: Prisma.IntNullableFilter<"LessonSession"> | number | null
+  transcript?: Prisma.JsonNullableFilter<"LessonSession">
 }
 
 export type LessonSessionCreateWithoutCompanionInput = {
@@ -644,6 +663,7 @@ export type LessonSessionCreateWithoutCompanionInput = {
   startedAt?: Date | string
   endedAt?: Date | string | null
   durationSeconds?: number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   user: Prisma.UserCreateNestedOneWithoutLessonSessionsInput
   lesson: Prisma.LessonCreateNestedOneWithoutLessonSessionsInput
 }
@@ -656,6 +676,7 @@ export type LessonSessionUncheckedCreateWithoutCompanionInput = {
   startedAt?: Date | string
   endedAt?: Date | string | null
   durationSeconds?: number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type LessonSessionCreateOrConnectWithoutCompanionInput = {
@@ -689,6 +710,7 @@ export type LessonSessionCreateWithoutLessonInput = {
   startedAt?: Date | string
   endedAt?: Date | string | null
   durationSeconds?: number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   user: Prisma.UserCreateNestedOneWithoutLessonSessionsInput
   companion?: Prisma.CompanionCreateNestedOneWithoutLessonSessionsInput
 }
@@ -701,6 +723,7 @@ export type LessonSessionUncheckedCreateWithoutLessonInput = {
   startedAt?: Date | string
   endedAt?: Date | string | null
   durationSeconds?: number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type LessonSessionCreateOrConnectWithoutLessonInput = {
@@ -737,6 +760,7 @@ export type LessonSessionCreateManyUserInput = {
   startedAt?: Date | string
   endedAt?: Date | string | null
   durationSeconds?: number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type LessonSessionUpdateWithoutUserInput = {
@@ -744,6 +768,7 @@ export type LessonSessionUpdateWithoutUserInput = {
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   lesson?: Prisma.LessonUpdateOneRequiredWithoutLessonSessionsNestedInput
   companion?: Prisma.CompanionUpdateOneWithoutLessonSessionsNestedInput
 }
@@ -756,6 +781,7 @@ export type LessonSessionUncheckedUpdateWithoutUserInput = {
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type LessonSessionUncheckedUpdateManyWithoutUserInput = {
@@ -766,6 +792,7 @@ export type LessonSessionUncheckedUpdateManyWithoutUserInput = {
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type LessonSessionCreateManyCompanionInput = {
@@ -776,6 +803,7 @@ export type LessonSessionCreateManyCompanionInput = {
   startedAt?: Date | string
   endedAt?: Date | string | null
   durationSeconds?: number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type LessonSessionUpdateWithoutCompanionInput = {
@@ -783,6 +811,7 @@ export type LessonSessionUpdateWithoutCompanionInput = {
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   user?: Prisma.UserUpdateOneRequiredWithoutLessonSessionsNestedInput
   lesson?: Prisma.LessonUpdateOneRequiredWithoutLessonSessionsNestedInput
 }
@@ -795,6 +824,7 @@ export type LessonSessionUncheckedUpdateWithoutCompanionInput = {
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type LessonSessionUncheckedUpdateManyWithoutCompanionInput = {
@@ -805,6 +835,7 @@ export type LessonSessionUncheckedUpdateManyWithoutCompanionInput = {
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type LessonSessionCreateManyLessonInput = {
@@ -815,6 +846,7 @@ export type LessonSessionCreateManyLessonInput = {
   startedAt?: Date | string
   endedAt?: Date | string | null
   durationSeconds?: number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type LessonSessionUpdateWithoutLessonInput = {
@@ -822,6 +854,7 @@ export type LessonSessionUpdateWithoutLessonInput = {
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   user?: Prisma.UserUpdateOneRequiredWithoutLessonSessionsNestedInput
   companion?: Prisma.CompanionUpdateOneWithoutLessonSessionsNestedInput
 }
@@ -834,6 +867,7 @@ export type LessonSessionUncheckedUpdateWithoutLessonInput = {
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type LessonSessionUncheckedUpdateManyWithoutLessonInput = {
@@ -844,6 +878,7 @@ export type LessonSessionUncheckedUpdateManyWithoutLessonInput = {
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transcript?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 
@@ -857,6 +892,7 @@ export type LessonSessionSelect<ExtArgs extends runtime.Types.Extensions.Interna
   startedAt?: boolean
   endedAt?: boolean
   durationSeconds?: boolean
+  transcript?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   lesson?: boolean | Prisma.LessonDefaultArgs<ExtArgs>
   companion?: boolean | Prisma.LessonSession$companionArgs<ExtArgs>
@@ -871,6 +907,7 @@ export type LessonSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   startedAt?: boolean
   endedAt?: boolean
   durationSeconds?: boolean
+  transcript?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   lesson?: boolean | Prisma.LessonDefaultArgs<ExtArgs>
   companion?: boolean | Prisma.LessonSession$companionArgs<ExtArgs>
@@ -885,6 +922,7 @@ export type LessonSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   startedAt?: boolean
   endedAt?: boolean
   durationSeconds?: boolean
+  transcript?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   lesson?: boolean | Prisma.LessonDefaultArgs<ExtArgs>
   companion?: boolean | Prisma.LessonSession$companionArgs<ExtArgs>
@@ -899,9 +937,10 @@ export type LessonSessionSelectScalar = {
   startedAt?: boolean
   endedAt?: boolean
   durationSeconds?: boolean
+  transcript?: boolean
 }
 
-export type LessonSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "lessonId" | "companionId" | "status" | "startedAt" | "endedAt" | "durationSeconds", ExtArgs["result"]["lessonSession"]>
+export type LessonSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "lessonId" | "companionId" | "status" | "startedAt" | "endedAt" | "durationSeconds" | "transcript", ExtArgs["result"]["lessonSession"]>
 export type LessonSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   lesson?: boolean | Prisma.LessonDefaultArgs<ExtArgs>
@@ -934,6 +973,7 @@ export type $LessonSessionPayload<ExtArgs extends runtime.Types.Extensions.Inter
     startedAt: Date
     endedAt: Date | null
     durationSeconds: number | null
+    transcript: runtime.JsonValue | null
   }, ExtArgs["result"]["lessonSession"]>
   composites: {}
 }
@@ -1368,6 +1408,7 @@ export interface LessonSessionFieldRefs {
   readonly startedAt: Prisma.FieldRef<"LessonSession", 'DateTime'>
   readonly endedAt: Prisma.FieldRef<"LessonSession", 'DateTime'>
   readonly durationSeconds: Prisma.FieldRef<"LessonSession", 'Int'>
+  readonly transcript: Prisma.FieldRef<"LessonSession", 'Json'>
 }
     
 

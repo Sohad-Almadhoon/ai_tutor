@@ -42,9 +42,23 @@ export async function getLessonSessionsAction(input: {
     const currentPage = Math.min(page, Math.max(totalPages, 1));
     const sessions = await prisma.lessonSession.findMany({
       where,
-      include: {
-        companion: true,
-        lesson: { include: { defaultCompanion: true } },
+      select: {
+        id: true,
+        status: true,
+        startedAt: true,
+        endedAt: true,
+        durationSeconds: true,
+        companion: { select: { name: true, companionIcon: true } },
+        lesson: {
+          select: {
+            id: true,
+            name: true,
+            subject: true,
+            topic: true,
+            targetDurationMinutes: true,
+            defaultCompanion: { select: { name: true, companionIcon: true } },
+          },
+        },
       },
       orderBy: [{ startedAt: "desc" }, { id: "desc" }],
       skip: (currentPage - 1) * limit,
@@ -58,6 +72,30 @@ export async function getLessonSessionsAction(input: {
   } catch (error) {
     console.error("Failed to fetch lesson sessions:", error);
     return failure("Failed to fetch lesson sessions", 500);
+  }
+}
+
+export async function getLessonSessionAction(sessionId: number) {
+  try {
+    const { userId } = await auth();
+    if (!userId) return failure("Unauthorized", 401);
+    if (!isValidId(sessionId)) {
+      return failure("Invalid session ID", 400);
+    }
+
+    const session = await prisma.lessonSession.findFirst({
+      where: { id: sessionId, userId },
+      include: {
+        companion: { select: { name: true } },
+        lesson: { select: { id: true, name: true, subject: true } },
+      },
+    });
+    if (!session) return failure("Lesson session not found", 404);
+
+    return success(session);
+  } catch (error) {
+    console.error("Failed to fetch lesson session:", error);
+    return failure("Failed to fetch lesson session", 500);
   }
 }
 
@@ -167,13 +205,30 @@ export async function startLessonSessionAction(
 
 async function finishLessonSessionAction(
   sessionId: number,
-  status: "COMPLETED" | "ABANDONED"
+  status: "COMPLETED" | "ABANDONED",
+  transcript: { role: "user" | "assistant"; text: string }[]
 ) {
   try {
     const { userId } = await auth();
     if (!userId) return failure("Unauthorized", 401);
     if (!isValidId(sessionId)) {
       return failure("Invalid session ID", 400);
+    }
+    if (
+      !Array.isArray(transcript) ||
+      transcript.length > 1000 ||
+      transcript.some(
+        (entry) =>
+          typeof entry !== "object" ||
+          entry === null ||
+          (entry.role !== "user" && entry.role !== "assistant") ||
+          typeof entry.text !== "string" ||
+          entry.text.length > 5000
+      ) ||
+      transcript.reduce((length, entry) => length + entry.text.length, 0) >
+        100_000
+    ) {
+      return failure("Invalid lesson transcript", 400);
     }
 
     const session = await prisma.$transaction(async (transaction) => {
@@ -201,6 +256,7 @@ async function finishLessonSessionAction(
           status,
           endedAt,
           durationSeconds,
+          transcript,
         },
       });
       if (update.count !== 1) return null;
@@ -225,10 +281,24 @@ async function finishLessonSessionAction(
   }
 }
 
-export async function completeLessonSessionAction(sessionId: number) {
-  return finishLessonSessionAction(sessionId, LessonSessionStatus.COMPLETED);
+export async function completeLessonSessionAction(
+  sessionId: number,
+  transcript: { role: "user" | "assistant"; text: string }[]
+) {
+  return finishLessonSessionAction(
+    sessionId,
+    LessonSessionStatus.COMPLETED,
+    transcript
+  );
 }
 
-export async function abandonLessonSessionAction(sessionId: number) {
-  return finishLessonSessionAction(sessionId, LessonSessionStatus.ABANDONED);
+export async function abandonLessonSessionAction(
+  sessionId: number,
+  transcript: { role: "user" | "assistant"; text: string }[]
+) {
+  return finishLessonSessionAction(
+    sessionId,
+    LessonSessionStatus.ABANDONED,
+    transcript
+  );
 }

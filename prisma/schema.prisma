@@ -93,6 +93,7 @@ model LessonSession {
   startedAt       DateTime            @default(now())
   endedAt         DateTime?
   durationSeconds Int?
+  transcript      Json?
 
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   lesson    Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)

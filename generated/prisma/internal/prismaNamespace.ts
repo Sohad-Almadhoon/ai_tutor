@@ -890,7 +890,8 @@ export const LessonSessionScalarFieldEnum = {
   status: 'status',
   startedAt: 'startedAt',
   endedAt: 'endedAt',
-  durationSeconds: 'durationSeconds'
+  durationSeconds: 'durationSeconds',
+  transcript: 'transcript'
 } as const
 
 export type LessonSessionScalarFieldEnum = (typeof LessonSessionScalarFieldEnum)[keyof typeof LessonSessionScalarFieldEnum]
@@ -902,6 +903,14 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -918,6 +927,15 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -1000,6 +1018,20 @@ export type EnumLessonSessionStatusFieldRefInput<$PrismaModel> = FieldRefInputTy
  * Reference to a field of type 'LessonSessionStatus[]'
  */
 export type ListEnumLessonSessionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LessonSessionStatus[]'>
+
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -1234,4 +1266,3 @@ export type PrismaAction =
  * `PrismaClient` proxy available in interactive transactions.
  */
 export type TransactionClient = Omit<DefaultPrismaClient, runtime.ITXClientDenyList>
-

@@ -44,6 +44,7 @@ Visibility currently belongs to the **Companion**, so all Lessons under that Com
 5. The learning experience uses the Lesson's content and the associated Companion's voice and tutor settings.
 6. When the learner finishes, the session becomes `COMPLETED`; the server records its end time and actual elapsed duration.
 7. If the learner leaves without completing, the session should be marked `ABANDONED`, not `COMPLETED`.
+8. Final Vapi transcript messages are saved on the session when it ends. Learners can review the conversation from their session history.
 
 ## Duration rules
 
@@ -51,6 +52,7 @@ There are two different duration values:
 
 - `Lesson.targetDurationMinutes` is the estimated or recommended time for the Lesson. It is informational; it does **not** automatically end a session.
 - `LessonSession.durationSeconds` is the actual elapsed time for one attempt, calculated from its start and end timestamps when completed.
+- `LessonSession.transcript` stores the final user and tutor utterances as JSON for later review.
 
 The current elapsed-time calculation measures wall-clock time between starting and completing the session. It does not distinguish active conversation time from idle time. If the product needs a hard time limit or active speaking-time measurement, that needs additional runtime behavior.
 
@@ -101,7 +103,7 @@ Internal application code should call the matching Server Actions in `actions/`:
 
 - `companion.action.ts`: list, create, get, update visibility, and delete Companions.
 - `lesson.action.ts`: list and create a Companion's Lessons, discover public Lessons, and get, update, or delete a Lesson.
-- `lesson-session.action.ts`: list, start, and complete LessonSessions.
+- `lesson-session.action.ts`: list, start, fetch, and finish LessonSessions.
 - `bookmark.action.ts`: list, create, and delete bookmarks.
 - `user.action.ts`: get the current user or a user by ID.
 

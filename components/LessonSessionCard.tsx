@@ -95,12 +95,22 @@ const LessonSessionCard = ({ session }: LessonSessionCardProps) => {
               <TutorLabel label="Lesson tutor" tutor={originalTutor} />
             )}
         </div>
-        <Link
-          href={`/lessons/${session.lesson.id}`}
-          className="rounded-sm text-sm font-semibold text-violet-700 transition hover:text-violet-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-violet-200"
-        >
-          {session.status === "IN_PROGRESS" ? "Open lesson" : "Study again"}
-        </Link>
+        <div className="flex flex-wrap items-center gap-4">
+          {session.status !== "IN_PROGRESS" && (
+            <Link
+              href={`/learning-sessions/${session.id}`}
+              className="rounded-sm text-sm font-semibold text-violet-700 transition hover:text-violet-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-violet-200"
+            >
+              Review transcript
+            </Link>
+          )}
+          <Link
+            href={`/lessons/${session.lesson.id}`}
+            className="rounded-sm text-sm font-semibold text-violet-700 transition hover:text-violet-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-violet-200"
+          >
+            {session.status === "IN_PROGRESS" ? "Open lesson" : "Study again"}
+          </Link>
+        </div>
       </div>
     </article>
   );

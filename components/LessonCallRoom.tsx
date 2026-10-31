@@ -109,6 +109,7 @@ const LessonCallRoom = ({
   const [notice, setNotice] = useState("");
   const vapiRef = useRef<Vapi | null>(null);
   const sessionIdRef = useRef<number | null>(null);
+  const transcriptRef = useRef<TranscriptEntry[]>([]);
   const finishedSessionRef = useRef(false);
   const startCancelledRef = useRef(false);
   const desiredSessionStatusRef = useRef<"COMPLETED" | "ABANDONED">(
@@ -127,8 +128,8 @@ const LessonCallRoom = ({
     try {
       const result =
         desiredSessionStatusRef.current === "COMPLETED"
-          ? await completeLessonSessionAction(sessionId)
-          : await abandonLessonSessionAction(sessionId);
+          ? await completeLessonSessionAction(sessionId, transcriptRef.current)
+          : await abandonLessonSessionAction(sessionId, transcriptRef.current);
       if (!result.success) throw new Error(result.error);
 
       sessionIdRef.current = null;
@@ -191,9 +192,9 @@ const LessonCallRoom = ({
         event.role === "user" ? "user" : "assistant";
       const text = event.transcript;
       if (typeof text !== "string") return;
-      setTranscript((current) =>
-        [...current, { role, text }].slice(-12)
-      );
+      const nextTranscript = [...transcriptRef.current, { role, text }];
+      transcriptRef.current = nextTranscript;
+      setTranscript(nextTranscript);
     });
     vapi.on("call-start-failed", (event) => {
       desiredSessionStatusRef.current = "ABANDONED";
@@ -236,6 +237,7 @@ const LessonCallRoom = ({
     setError("");
     setNotice("");
     setTranscript([]);
+    transcriptRef.current = [];
     setCallState("starting");
     startCancelledRef.current = false;
     finishedSessionRef.current = false;
@@ -481,7 +483,7 @@ const LessonCallRoom = ({
             <h3 className="text-xs font-bold uppercase tracking-wide text-slate-500">
               Recent conversation
             </h3>
-            {transcript.map((entry, index) => (
+            {transcript.slice(-12).map((entry, index) => (
               <p
                 key={`${index}-${entry.role}`}
                 className={`text-sm leading-5 ${
